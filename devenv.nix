@@ -10,6 +10,7 @@
     pkgs.ninja
     pkgs.basedpyright
     pkgs.ruff
+    pkgs.go-task
   ];
 
   # https://devenv.sh/languages/
