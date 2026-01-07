@@ -9,6 +9,10 @@ project(
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
+if(NOT MSVC)
+    find_package(OpenMP)
+endif()
+
 include(FetchContent)
 
 # Force -fPIC for the qualpal library (required for shared libraries)
