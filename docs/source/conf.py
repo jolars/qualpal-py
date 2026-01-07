@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent / "exts"))
 
 from github_link import make_linkcode_resolve  # noqa: E402
-from sortedl1 import __version__  # noqa: E402
+from qualpal import __version__  # noqa: E402
 
 # Project information
 project = "Qualpal"
@@ -51,7 +51,7 @@ autosummary_imported_members = True
 # Options for HTML output
 html_theme = "furo"
 html_static_path = ["_static"]
-html_logo = "_static/slope-logo.png"
+html_logo = "_static/logo.svg"
 html_css_files = [
     "css/custom.css",
 ]
