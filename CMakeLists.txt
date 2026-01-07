@@ -23,6 +23,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(qualpal)
 
+# Define _USE_MATH_DEFINES for Windows (MSVC) to enable M_PI
+if(MSVC)
+    target_compile_definitions(qualpal PRIVATE _USE_MATH_DEFINES)
+endif()
+
 pybind11_add_module(_qualpal src/main.cpp)
 target_link_libraries(_qualpal PRIVATE qualpal::qualpal)
 
