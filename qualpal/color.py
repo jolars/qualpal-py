@@ -69,6 +69,7 @@ class Color:
         b_int = round(b * 255)
 
         hex_str = f"#{r_int:02x}{g_int:02x}{b_int:02x}"
+
         return cls(hex_str)
 
     def hex(self) -> str:
@@ -117,6 +118,7 @@ class Color:
         """Check equality with another Color or hex string."""
         if isinstance(other, Color):
             return self._hex == other._hex
+
         if isinstance(other, str):
             # Normalize and compare
             try:
@@ -124,13 +126,16 @@ class Color:
                 return self._hex == other_color._hex
             except ValueError:
                 return False
+
         return NotImplemented
 
     def __ne__(self, other: object) -> bool:
         """Check inequality."""
         result = self.__eq__(other)
+
         if result is NotImplemented:
             return result
+
         return not result
 
     def __hash__(self) -> int:
