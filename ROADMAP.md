@@ -1,41 +1,49 @@
 # Implementation Roadmap for qualpal-py
 
 **Created:** 2026-01-07  
-**Based on:** API_DESIGN.md
+**Updated:** 2026-01-07  
+**Based on:** API_DESIGN.md  
+**Architecture:** Python-first approach
 
 ---
 
 ## Overview
 
-Incremental development plan for qualpal Python bindings. Each phase builds on the previous, allowing testing and validation at every step.
+Incremental development plan for qualpal Python bindings using a **Python-first architecture**:
+- Python handles API, data structures, validation
+- C++ handles performance-critical algorithms only
+
+Each phase builds on the previous, allowing testing and validation at every step.
 
 ---
 
 ## Phase 1: Core Foundation (Week 1)
 
-**Goal:** Basic C++ bindings working with minimal Python API
+**Goal:** Basic Python classes with minimal C++ algorithm bindings
 
-### 1.1 Color Class (Days 1-2)
-- [ ] C++ `Color` class with pybind11 bindings
-- [ ] Constructor from hex string
-- [ ] `hex()`, `rgb()`, `rgb255()` methods
-- [ ] `__str__` and `__repr__` implementations
-- [ ] Equality operators (`==`, `!=`)
-- [ ] Basic tests
+### 1.1 Color Class (Days 1-2) ✅ COMPLETE
+- [x] Pure Python `Color` class
+- [x] Constructor from hex string
+- [x] `hex()`, `rgb()`, `rgb255()` methods
+- [x] `from_rgb()` class method
+- [x] `__str__` and `__repr__` implementations
+- [x] Equality operators (`==`, `!=`)
+- [x] Hash support
+- [x] Validation
+- [x] Basic tests
 
-**Deliverable:** `Color('#ff0000')` works in Python
+**Deliverable:** `Color('#ff0000')` works in Python (no C++ build needed)
 
 ### 1.2 Color Conversions (Day 3)
-- [ ] Add color space conversion methods
+- [ ] Add color space conversion methods (pure Python)
 - [ ] `hsl()`, `hsv()`, `lab()`, `lch()`, `xyz()`
-- [ ] `from_rgb()`, `from_hsl()` class methods
-- [ ] Validation for all constructors
+- [ ] `from_hsl()` class method
 - [ ] Tests for round-trip conversions
 
-**Deliverable:** Full color space support
+**Deliverable:** Full color space support (pure Python)
 
 ### 1.3 Palette Class - Basic (Days 4-5)
-- [ ] C++ `Palette` class with list-like behavior
+- [ ] Pure Python `Palette` class
 - [ ] `__len__`, `__getitem__`, `__iter__`, `__contains__`
 - [ ] Slicing support (returns new Palette)
 - [ ] `hex()` method
@@ -43,16 +51,16 @@ Incremental development plan for qualpal Python bindings. Each phase builds on t
 - [ ] `__str__` and `__repr__`
 - [ ] Basic tests
 
-**Deliverable:** `Palette` object works like Python list
+**Deliverable:** `Palette` object works like Python list (no C++ build needed)
 
 ---
 
 ## Phase 2: Core Generation (Week 2)
 
-**Goal:** Basic palette generation working
+**Goal:** Qualpal class and C++ generation algorithm integration
 
 ### 2.1 Qualpal Class - Initialization (Days 1-2)
-- [ ] Python `Qualpal` class (pure Python wrapper)
+- [ ] Pure Python `Qualpal` class
 - [ ] `__init__` with mutual exclusivity validation
 - [ ] Property setters with validation:
   - [ ] `cvd`
@@ -63,44 +71,46 @@ Incremental development plan for qualpal Python bindings. Each phase builds on t
 - [ ] Colorspace parameter validation
 - [ ] Tests for all validation paths
 
-**Deliverable:** `Qualpal()` initialization with all parameters
+**Deliverable:** `Qualpal()` initialization with all parameters (no C++ needed yet)
 
-### 2.2 Basic Generation (Days 3-4)
-- [ ] Bind C++ palette generation function
-- [ ] Implement `Qualpal.generate(n)` method
+### 2.2 C++ Algorithm Binding (Day 3)
+- [ ] Test C++ `generate_palette_cpp()` binding
+- [ ] Add error handling for C++ exceptions
+- [ ] Test basic generation from Python
+
+**Deliverable:** C++ algorithm callable from Python
+
+### 2.3 Integration (Days 4-5)
+- [ ] Implement `Qualpal.generate(n)` method calling C++
 - [ ] Support colorspace-only mode first
+- [ ] Return `Palette` object with `Color` objects
 - [ ] Error handling (RuntimeError on failure)
-- [ ] Basic integration tests
+- [ ] Integration tests
 
-**Deliverable:** `qp.generate(6)` returns valid palette
-
-### 2.3 Colors Mode (Day 5)
-- [ ] Support `colors` parameter in generation
-- [ ] Implement `extend()` method
-- [ ] Tests for extending palettes
-
-**Deliverable:** Starting from existing colors works
+**Deliverable:** `qp.generate(6)` returns valid `Palette` with `Color` objects
 
 ---
 
 ## Phase 3: Analysis & Distance (Week 3)
 
-**Goal:** Color distance and palette analysis
+**Goal:** Color distance and palette analysis (using C++ for computation)
 
 ### 3.1 Color Distance (Days 1-2)
 - [ ] Bind color difference metrics from C++
-- [ ] `Color.distance(other, metric)` method
+- [ ] Add C++ function `color_difference_cpp(hex1, hex2, metric)`
+- [ ] `Color.distance(other, metric)` method (calls C++)
 - [ ] Support CIEDE2000, DIN99d, CIE76
 - [ ] Tests for all metrics
 
 ### 3.2 Palette Analysis (Days 3-4)
-- [ ] `Palette.min_distance(metric)`
-- [ ] `Palette.distance_matrix(metric)`
-- [ ] `Palette.min_distances(metric)`
+- [ ] Bind C++ distance matrix computation
+- [ ] `Palette.min_distance(metric)` (calls C++)
+- [ ] `Palette.distance_matrix(metric)` (calls C++)
+- [ ] `Palette.min_distances(metric)` (calls C++)
 - [ ] Comprehensive tests
 
 ### 3.3 Utility Functions (Day 5)
-- [ ] `analyze_palette()` function
+- [ ] `analyze_palette()` function (pure Python wrapper)
 - [ ] `qualpal()` convenience function
 - [ ] Tests
 
@@ -210,6 +220,12 @@ Incremental development plan for qualpal Python bindings. Each phase builds on t
 ---
 
 ## Testing Strategy
+
+**Python-First Benefits:**
+- Python classes can be tested without C++ build
+- Faster test iteration (no compilation)
+- Better test isolation and mocking
+- Easier debugging with Python debugger
 
 **Each phase must include:**
 1. Unit tests for new functionality

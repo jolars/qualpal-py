@@ -2,35 +2,56 @@
 #include <pybind11/stl.h>
 #include <qualpal.h>
 
-int
-my_function(int i, int j)
-{
-  return i + j;
-}
+namespace py = pybind11;
 
+// ============================================================================
+// C++ Bindings - Core Algorithm Only
+// ============================================================================
+
+// Generate palette using C++ algorithm
 std::vector<std::string>
-make_palette()
+generate_palette_cpp(
+  int n,
+  const std::vector<double>& h_range,
+  const std::vector<double>& c_range,
+  const std::vector<double>& l_range
+)
 {
   qualpal::Qualpal qp;
-
-  qp.setInputColorspace({ -170, 60 }, { 0, 0.7 }, { 0.2, 0.8 });
-  std::vector<qualpal::colors::RGB> pal = qp.generate(5);
-
+  
+  qp.setInputColorspace(
+    { h_range[0], h_range[1] },
+    { c_range[0], c_range[1] },
+    { l_range[0], l_range[1] }
+  );
+  
+  std::vector<qualpal::colors::RGB> pal = qp.generate(n);
+  
   std::vector<std::string> hex_colors;
   for (const auto& color : pal) {
     hex_colors.push_back(color.hex());
   }
-
+  
   return hex_colors;
 }
 
-namespace py = pybind11;
+// ============================================================================
+// Module definition
+// ============================================================================
 
 PYBIND11_MODULE(_qualpal,
                 m,
                 py::mod_gil_not_used(),
                 py::multiple_interpreters::per_interpreter_gil())
 {
-  m.def("_my_function", &my_function);
-  m.def("_make_palette", &make_palette);
+  m.doc() = "qualpal C++ core algorithms";
+
+  m.def("generate_palette_cpp",
+        &generate_palette_cpp,
+        py::arg("n"),
+        py::arg("h_range"),
+        py::arg("c_range"),
+        py::arg("l_range"),
+        "Generate palette using C++ algorithm");
 }
+
