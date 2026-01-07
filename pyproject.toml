@@ -104,7 +104,11 @@ isort.required-imports = ["from __future__ import annotations"]
 convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
-"docs/**" = ["T20", "PTH", "EM"]  # Allow print, os.path, and direct string exceptions in docs
+"docs/**" = [
+    "T20",
+    "PTH",
+    "EM",
+] # Allow print, os.path, and direct string exceptions in docs
 
 [tool.basedpyright]
 typeCheckingMode = "standard"
@@ -112,7 +116,4 @@ pythonVersion = "3.9"
 pythonPlatform = "All"
 include = ["qualpal", "tests"]
 exclude = ["build", "dist", ".venv", "**/__pycache__"]
-reportMissingTypeStubs = false
-reportUnknownMemberType = false
-reportUnknownArgumentType = false
-reportUnknownVariableType = false
+reportMissingTypeStubs = false                         # Third-party libraries may not have stubs
