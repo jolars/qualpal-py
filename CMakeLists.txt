@@ -9,11 +9,6 @@ project(
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
-# Disable OpenMP on Windows (MSVC) due to SIMD experimental issues
-if(NOT MSVC)
-    find_package(OpenMP)
-endif()
-
 include(FetchContent)
 
 # Force -fPIC for the qualpal library (required for shared libraries)
@@ -26,11 +21,6 @@ FetchContent_Declare(
     GIT_SHALLOW    TRUE
 )
 FetchContent_MakeAvailable(qualpal)
-
-# Define _USE_MATH_DEFINES for Windows (MSVC) to enable M_PI
-if(MSVC)
-    target_compile_definitions(qualpal PRIVATE _USE_MATH_DEFINES)
-endif()
 
 pybind11_add_module(_qualpal src/main.cpp)
 target_link_libraries(_qualpal PRIVATE qualpal::qualpal)
