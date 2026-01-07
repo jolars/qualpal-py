@@ -17,7 +17,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 FetchContent_Declare(
     qualpal
     GIT_REPOSITORY https://github.com/jolars/qualpal
-    GIT_TAG        v3.3.0
+    GIT_TAG        v3.4.0
     GIT_SHALLOW    TRUE
 )
 FetchContent_MakeAvailable(qualpal)
