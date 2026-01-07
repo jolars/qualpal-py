@@ -28,10 +28,6 @@ class Color:
         ValueError
             If hex_color is not a valid hex color string
         """
-        if not isinstance(hex_color, str):
-            msg = "hex_color must be a string"
-            raise TypeError(msg)
-
         # Validate format
         if not re.match(r"^#[0-9a-fA-F]{6}$", hex_color):
             msg = f"Invalid hex color format: {hex_color}"
