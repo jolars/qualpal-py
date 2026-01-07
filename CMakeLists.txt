@@ -17,6 +17,10 @@ if(NOT MSVC)
     endif()
 endif()
 
+if(MSVC)
+    add_compile_definitions(_USE_MATH_DEFINES)
+endif()
+
 include(FetchContent)
 
 # Force -fPIC for the qualpal library (required for shared libraries)
