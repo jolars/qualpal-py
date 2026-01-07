@@ -1,4 +1,4 @@
-"""Tests for Color class (Phase 1.1)."""
+"""Tests for Color class."""
 
 from __future__ import annotations
 
