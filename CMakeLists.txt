@@ -11,6 +11,10 @@ find_package(pybind11 CONFIG REQUIRED)
 
 if(NOT MSVC)
     find_package(OpenMP)
+    if(OpenMP_FOUND)
+        message(STATUS "OpenMP found: ${OpenMP_CXX_FLAGS}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    endif()
 endif()
 
 include(FetchContent)
@@ -28,9 +32,5 @@ FetchContent_MakeAvailable(qualpal)
 
 pybind11_add_module(_qualpal src/main.cpp)
 target_link_libraries(_qualpal PRIVATE qualpal::qualpal)
-
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(_qualpal PRIVATE OpenMP::OpenMP_CXX)
-endif()
 
 install(TARGETS _qualpal DESTINATION .)
