@@ -10,7 +10,6 @@ set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(OpenMP)
 
-# Fetch qualpal library from upstream repository
 include(FetchContent)
 FetchContent_Declare(
     qualpal
