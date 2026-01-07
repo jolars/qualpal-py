@@ -11,6 +11,10 @@ find_package(pybind11 CONFIG REQUIRED)
 find_package(OpenMP)
 
 include(FetchContent)
+
+# Force -fPIC for the qualpal library (required for shared libraries)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 FetchContent_Declare(
     qualpal
     GIT_REPOSITORY https://github.com/jolars/qualpal
