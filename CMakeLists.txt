@@ -8,20 +8,23 @@ project(
 
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
+find_package(OpenMP)
 
-# Add include directories if needed
-include_directories(include)
-
-pybind11_add_module(_qualpal 
-    src/main.cpp
-    src/qualpal/analyze.cpp
-    src/qualpal/color_difference.cpp
-    src/qualpal/colors.cpp
-    src/qualpal/cvd.cpp
-    src/qualpal/farthest_points.cpp
-    src/qualpal/palettes.cpp
-    src/qualpal/qualpal.cpp
-    src/qualpal/validation.cpp
+# Fetch qualpal library from upstream repository
+include(FetchContent)
+FetchContent_Declare(
+    qualpal
+    GIT_REPOSITORY https://github.com/jolars/qualpal
+    GIT_TAG        v3.3.0
+    GIT_SHALLOW    TRUE
 )
+FetchContent_MakeAvailable(qualpal)
+
+pybind11_add_module(_qualpal src/main.cpp)
+target_link_libraries(_qualpal PRIVATE qualpal::qualpal)
+
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(_qualpal PRIVATE OpenMP::OpenMP_CXX)
+endif()
 
 install(TARGETS _qualpal DESTINATION .)
