@@ -6,6 +6,14 @@
 
 **Status:** 🚧 Work in Progress - See `ROADMAP.md` for current implementation status.
 
+**Code Quality Requirements:**
+- ✅ `ruff format --check .` must pass (formatting)
+- ✅ `ruff check .` must pass (linting)  
+- ✅ `basedpyright qualpal` must pass (type checking)
+- ✅ `python -m pytest` must pass (tests)
+
+**Quick Fix:** Use `ruff format .` and `ruff check --fix .` to auto-fix most issues before committing.
+
 **Architecture:** Python-first approach
 - **Python layer**: API, data structures (Color, Palette, Qualpal classes), validation
 - **C++ layer**: Performance-critical algorithms (palette generation, distance calculations)
@@ -109,20 +117,32 @@ make html
 
 ### Linting & Formatting
 
-**Ruff** is used for linting and formatting:
+**REQUIRED: All code must pass these checks before committing:**
 
 ```bash
-# Check
-ruff check .
+# 1. Format code (automatically fixes formatting)
+ruff format .
 
-# Fix
+# 2. Check and fix linting issues (automatically fixes most issues)
 ruff check --fix .
 
-# Format
-ruff format .
+# 3. Type check (no auto-fix, must fix manually)
+basedpyright qualpal
 ```
 
-**Pre-commit hooks** run ruff automatically. Configuration in `pyproject.toml` under `[tool.ruff]`.
+**To verify before PR/commit:**
+```bash
+ruff format --check .     # Must pass - no formatting changes needed
+ruff check .              # Must pass - no linting errors
+basedpyright qualpal      # Must pass - no type errors
+```
+
+**Configuration:**
+- Ruff: `pyproject.toml` under `[tool.ruff]`
+- Docstring convention: numpy style
+- Type checking: basedpyright with "standard" mode, Python 3.9+ target
+
+**Pre-commit hooks** will run ruff automatically on commit (configured via `.pre-commit-config.yaml`).
 
 ## Build System Details
 
@@ -188,6 +208,7 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
      - Build package with `uv pip install -e . --group test`
      - Run pytest
      - Upload coverage to Codecov
+   - **Does NOT run linting/type checking** - assumes you've done that locally
 
 2. **pypi.yml** - Build wheels for PyPI
    - Uses cibuildwheel for multi-platform wheels
@@ -196,6 +217,8 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
 3. **release.yml** - Automated releases with semantic-release
 
 **All CI uses uv** - commands use `uv pip install --system` in CI environments.
+
+**Pre-commit hooks** - Run `ruff check` and `ruff format` automatically on commit.
 
 ### Common CI Issues
 
@@ -231,26 +254,6 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
 
 ## Important Implementation Notes
 
-### Python-First Architecture
-
-**✅ DO:**
-- Implement Color, Palette, Qualpal classes in pure Python
-- Add validation, properties, conversions in Python
-- Only call C++ for expensive operations (generation, distance matrices)
-
-**❌ DON'T:**
-- Create C++ class bindings for Color/Palette (wasteful)
-- Put validation logic in C++ (harder to debug)
-
-### Current C++ Bindings (src/main.cpp)
-
-Currently exports only ONE function:
-```cpp
-generate_palette_cpp(n, h_range, c_range, l_range) -> vector<string>
-```
-
-This is intentional - minimal C++ bindings. Python wraps this in `Qualpal.generate()`.
-
 ### Testing Strategy
 
 1. **Unit tests** for Python classes (no C++ needed)
@@ -262,7 +265,7 @@ This is intentional - minimal C++ bindings. Python wraps this in `Qualpal.genera
 
 ```bash
 # Install for development
-uv pip install -e .
+uv pip install -e . --group dev
 
 # Test pure Python (fast, no build)
 python -m pytest tests/test_color.py
@@ -270,9 +273,15 @@ python -m pytest tests/test_color.py
 # Test everything (requires build)
 python -m pytest
 
-# Lint and format
-ruff check --fix .
-ruff format .
+# REQUIRED: Lint, format, and type check (run before commit)
+ruff format .              # Auto-format code
+ruff check --fix .         # Auto-fix linting issues
+basedpyright qualpal       # Type check (manual fixes needed)
+
+# Verify checks pass (for CI/PR)
+ruff format --check .      # Verify formatting
+ruff check .               # Verify no lint errors
+basedpyright qualpal       # Verify no type errors
 
 # Build docs
 cd docs && make html
