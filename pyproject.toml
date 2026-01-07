@@ -12,6 +12,7 @@ readme = "README.md"
 maintainers = [{ name = "Johan Larsson", email = "johan@jolars.co" }]
 authors = [{ name = "Johan Larsson", email = "johan@jolars.co" }]
 requires-python = ">=3.9"
+dependencies = []
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3 :: Only",
@@ -26,7 +27,12 @@ classifiers = [
 [dependency-groups]
 test = ["pytest", "sphinx"]
 docs = ["sphinx", "furo", "sphinx-copybutton", "myst-parser", "myst-nb"]
-dev = [{ include-group = "test" }, { include-group = "docs" }]
+dev = [
+    { include-group = "test" },
+    { include-group = "docs" },
+    "basedpyright>=1.0.0",
+    "typing-extensions>=4.0.0",
+]
 
 [tool.scikit-build]
 minimum-version = "build-system.requires"
@@ -99,3 +105,16 @@ convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["T20"]
+"docs/**" = ["T20", "PTH", "EM"]  # Allow print, os.path, and direct string exceptions in docs
+"test_types.py" = ["T20"]  # Allow print in type test file
+
+[tool.basedpyright]
+typeCheckingMode = "standard"
+pythonVersion = "3.9"
+pythonPlatform = "All"
+include = ["qualpal", "tests"]
+exclude = ["build", "dist", ".venv", "**/__pycache__"]
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false

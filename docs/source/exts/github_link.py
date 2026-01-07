@@ -31,13 +31,13 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+from __future__ import annotations
 
 import importlib
 import inspect
 import os
 import subprocess
 import sys
-from functools import partial
 
 REVISION_CMD = "git rev-parse --short HEAD"
 
@@ -67,11 +67,11 @@ def _linkcode_resolve(domain, info, package, url_fmt, revision):
     'http://hg.python.org/cpython/file/xxxx/Lib/tty/tty.py#L18'
     """
     if revision is None:
-        return
+        return None
     if domain not in ("py", "pyx"):
-        return
+        return None
     if not info.get("module") or not info.get("fullname"):
-        return
+        return None
 
     class_name = info["fullname"].split(".")[0]
     module = importlib.import_module(info["module"])
@@ -91,7 +91,7 @@ def _linkcode_resolve(domain, info, package, url_fmt, revision):
         except Exception:
             fn = None
     if not fn:
-        return
+        return None
 
     fn = os.path.relpath(fn, start=os.path.dirname(__import__(package).__file__))
     try:
@@ -112,8 +112,8 @@ def make_linkcode_resolve(package, url_fmt):
                                    '{path}#L{lineno}')
     """
     revision = _get_git_revision()
-    
+
     def linkcode_resolve(domain, info):
         return _linkcode_resolve(domain, info, package, url_fmt, revision)
-    
+
     return linkcode_resolve

@@ -6,7 +6,7 @@ import re
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Self
+    from typing_extensions import Self
 
 
 class Color:
@@ -29,11 +29,13 @@ class Color:
             If hex_color is not a valid hex color string
         """
         if not isinstance(hex_color, str):
-            raise TypeError("hex_color must be a string")
+            msg = "hex_color must be a string"
+            raise TypeError(msg)
 
         # Validate format
         if not re.match(r"^#[0-9a-fA-F]{6}$", hex_color):
-            raise ValueError(f"Invalid hex color format: {hex_color}")
+            msg = f"Invalid hex color format: {hex_color}"
+            raise ValueError(msg)
 
         self._hex = hex_color.lower()
 
@@ -62,12 +64,13 @@ class Color:
         """
         # Validate range
         if not (0.0 <= r <= 1.0 and 0.0 <= g <= 1.0 and 0.0 <= b <= 1.0):
-            raise ValueError("RGB values must be in range [0.0, 1.0]")
+            msg = "RGB values must be in range [0.0, 1.0]"
+            raise ValueError(msg)
 
         # Convert to hex
-        r_int = int(round(r * 255))
-        g_int = int(round(g * 255))
-        b_int = int(round(b * 255))
+        r_int = round(r * 255)
+        g_int = round(g * 255)
+        b_int = round(b * 255)
 
         hex_str = f"#{r_int:02x}{g_int:02x}{b_int:02x}"
         return cls(hex_str)
@@ -101,9 +104,9 @@ class Color:
             RGB values as (r, g, b) integers
         """
         return (
-            int(round(self._r * 255)),
-            int(round(self._g * 255)),
-            int(round(self._b * 255)),
+            round(self._r * 255),
+            round(self._g * 255),
+            round(self._b * 255),
         )
 
     def __str__(self) -> str:
