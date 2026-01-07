@@ -46,7 +46,6 @@ log_level = "INFO"
 filterwarnings = ["error", "ignore::pytest.PytestCacheWarning"]
 testpaths = ["tests"]
 
-
 [tool.cibuildwheel]
 build-frontend = "build[uv]"
 enable = ["pypy"]
