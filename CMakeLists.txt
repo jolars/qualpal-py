@@ -8,7 +8,11 @@ project(
 
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
-find_package(OpenMP)
+
+# Disable OpenMP on Windows (MSVC) due to SIMD experimental issues
+if(NOT MSVC)
+    find_package(OpenMP)
+endif()
 
 include(FetchContent)
 
