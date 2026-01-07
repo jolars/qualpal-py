@@ -36,7 +36,7 @@ jobs:
           pip install pybind11 setuptools
 
       - name: Install
-        run: uv pip install -e . --group docs
+        run: uv pip install -e --system . --group docs
 
       - name: Build documentation
         run: |

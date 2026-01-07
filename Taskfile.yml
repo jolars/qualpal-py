@@ -7,7 +7,7 @@ tasks:
   install:
     desc: Install the package in development mode
     cmds:
-      - uv pip install -e . --group dev
+      - uv pip install --system -e . --group dev
 
   build:
     desc: Build distribution packages
