@@ -61,6 +61,7 @@ jobs:
     environment: pypi
     permissions:
       id-token: write
+      attestations: write
     steps:
       - uses: actions/setup-python@v6
         with:
@@ -71,5 +72,10 @@ jobs:
           pattern: cibw-*
           merge-multiple: true
           path: dist
+
+      - name: Generate artifact attestation for sdist and wheels
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: "dist/*"
 
       - uses: pypa/gh-action-pypi-publish@release/v1
