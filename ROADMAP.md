@@ -1,0 +1,290 @@
+# Implementation Roadmap for qualpal-py
+
+**Created:** 2026-01-07  
+**Based on:** API_DESIGN.md
+
+---
+
+## Overview
+
+Incremental development plan for qualpal Python bindings. Each phase builds on the previous, allowing testing and validation at every step.
+
+---
+
+## Phase 1: Core Foundation (Week 1)
+
+**Goal:** Basic C++ bindings working with minimal Python API
+
+### 1.1 Color Class (Days 1-2)
+- [ ] C++ `Color` class with pybind11 bindings
+- [ ] Constructor from hex string
+- [ ] `hex()`, `rgb()`, `rgb255()` methods
+- [ ] `__str__` and `__repr__` implementations
+- [ ] Equality operators (`==`, `!=`)
+- [ ] Basic tests
+
+**Deliverable:** `Color('#ff0000')` works in Python
+
+### 1.2 Color Conversions (Day 3)
+- [ ] Add color space conversion methods
+- [ ] `hsl()`, `hsv()`, `lab()`, `lch()`, `xyz()`
+- [ ] `from_rgb()`, `from_hsl()` class methods
+- [ ] Validation for all constructors
+- [ ] Tests for round-trip conversions
+
+**Deliverable:** Full color space support
+
+### 1.3 Palette Class - Basic (Days 4-5)
+- [ ] C++ `Palette` class with list-like behavior
+- [ ] `__len__`, `__getitem__`, `__iter__`, `__contains__`
+- [ ] Slicing support (returns new Palette)
+- [ ] `hex()` method
+- [ ] `rgb()` method with `as_array` parameter
+- [ ] `__str__` and `__repr__`
+- [ ] Basic tests
+
+**Deliverable:** `Palette` object works like Python list
+
+---
+
+## Phase 2: Core Generation (Week 2)
+
+**Goal:** Basic palette generation working
+
+### 2.1 Qualpal Class - Initialization (Days 1-2)
+- [ ] Python `Qualpal` class (pure Python wrapper)
+- [ ] `__init__` with mutual exclusivity validation
+- [ ] Property setters with validation:
+  - [ ] `cvd`
+  - [ ] `metric`
+  - [ ] `background`
+  - [ ] `max_memory`
+  - [ ] `colorspace_size`
+- [ ] Colorspace parameter validation
+- [ ] Tests for all validation paths
+
+**Deliverable:** `Qualpal()` initialization with all parameters
+
+### 2.2 Basic Generation (Days 3-4)
+- [ ] Bind C++ palette generation function
+- [ ] Implement `Qualpal.generate(n)` method
+- [ ] Support colorspace-only mode first
+- [ ] Error handling (RuntimeError on failure)
+- [ ] Basic integration tests
+
+**Deliverable:** `qp.generate(6)` returns valid palette
+
+### 2.3 Colors Mode (Day 5)
+- [ ] Support `colors` parameter in generation
+- [ ] Implement `extend()` method
+- [ ] Tests for extending palettes
+
+**Deliverable:** Starting from existing colors works
+
+---
+
+## Phase 3: Analysis & Distance (Week 3)
+
+**Goal:** Color distance and palette analysis
+
+### 3.1 Color Distance (Days 1-2)
+- [ ] Bind color difference metrics from C++
+- [ ] `Color.distance(other, metric)` method
+- [ ] Support CIEDE2000, DIN99d, CIE76
+- [ ] Tests for all metrics
+
+### 3.2 Palette Analysis (Days 3-4)
+- [ ] `Palette.min_distance(metric)`
+- [ ] `Palette.distance_matrix(metric)`
+- [ ] `Palette.min_distances(metric)`
+- [ ] Comprehensive tests
+
+### 3.3 Utility Functions (Day 5)
+- [ ] `analyze_palette()` function
+- [ ] `qualpal()` convenience function
+- [ ] Tests
+
+**Deliverable:** Full analysis API working
+
+---
+
+## Phase 4: CVD & Advanced Features (Week 4)
+
+**Goal:** Color vision deficiency simulation
+
+### 4.1 CVD Simulation (Days 1-3)
+- [ ] Bind CVD simulation from C++
+- [ ] `Color.simulate_cvd(type, severity)` method
+- [ ] Integrate CVD into generation
+- [ ] Tests with different CVD types
+
+### 4.2 Named Palettes (Days 4-5)
+- [ ] `list_palettes()` function
+- [ ] Support `palette` parameter in Qualpal
+- [ ] Load palettes from C++
+- [ ] Tests
+
+**Deliverable:** CVD-safe generation working
+
+---
+
+## Phase 5: Color Manipulation (Week 5)
+
+**Goal:** Color transformation methods
+
+### 5.1 Basic Manipulation (Days 1-3)
+- [ ] `Color.lighten(amount)`
+- [ ] `Color.darken(amount)`
+- [ ] `Color.with_saturation(value)`
+- [ ] Tests ensuring immutability
+
+### 5.2 Advanced Manipulation (Days 4-5)
+- [ ] `Color.blend(other, ratio)`
+- [ ] Additional color operations as needed
+- [ ] Comprehensive tests
+
+**Deliverable:** All color manipulation methods working
+
+---
+
+## Phase 6: Export & Visualization (Week 6)
+
+**Goal:** Output formats and display
+
+### 6.1 Export Formats (Days 1-3)
+- [ ] `Palette.to_css(prefix)`
+- [ ] `Palette.to_json()`
+- [ ] `Palette.save()` for SVG
+- [ ] Tests for all formats
+
+### 6.2 Matplotlib Integration (Days 4-5)
+- [ ] `Palette.show(labels)` with matplotlib
+- [ ] Return Figure object
+- [ ] Graceful handling when matplotlib not installed
+- [ ] `Palette.save()` for PNG
+- [ ] Visual tests (manual review)
+
+**Deliverable:** Full export and visualization support
+
+---
+
+## Phase 7: Polish & Documentation (Week 7)
+
+### 7.1 Rich Display (Days 1-2)
+- [ ] Jupyter/IPython `_repr_html_()` for Color
+- [ ] Jupyter/IPython `_repr_html_()` for Palette
+- [ ] Test in actual Jupyter notebook
+
+### 7.2 Documentation (Days 3-4)
+- [ ] Docstrings for all public APIs
+- [ ] Type hints complete
+- [ ] Usage examples in docstrings
+- [ ] Update README with examples
+
+### 7.3 Testing & CI (Day 5)
+- [ ] Test coverage > 90%
+- [ ] CI pipeline running
+- [ ] Test on multiple Python versions (3.9+)
+- [ ] Performance benchmarks
+
+**Deliverable:** Production-ready package
+
+---
+
+## Phase 8: Package & Release (Week 8)
+
+### 8.1 Packaging (Days 1-3)
+- [ ] Build system configuration
+- [ ] Wheel building with scikit-build-core
+- [ ] Test installation from wheel
+- [ ] Cross-platform testing (Linux, macOS, Windows)
+
+### 8.2 Release Preparation (Days 4-5)
+- [ ] CHANGELOG complete
+- [ ] Version 1.0.0 tag
+- [ ] PyPI publication
+- [ ] Documentation site (if needed)
+
+**Deliverable:** v1.0.0 published on PyPI
+
+---
+
+## Testing Strategy
+
+**Each phase must include:**
+1. Unit tests for new functionality
+2. Integration tests where applicable
+3. Error handling tests
+4. Type checking with mypy
+5. Manual smoke testing
+
+**Test categories:**
+- Unit tests: Fast, isolated
+- Integration tests: Multi-component
+- Visual tests: Manual review (plots, colors)
+- Performance tests: Benchmarks for large palettes
+
+---
+
+## Dependencies to Install
+
+**Phase 1:**
+- pybind11
+- pytest
+- numpy
+
+**Phase 6:**
+- matplotlib (optional dependency)
+
+**Phase 7:**
+- mypy, sphinx (docs)
+
+---
+
+## Risk Management
+
+**Risk:** C++ generation algorithm not exposed properly
+- **Mitigation:** Start with simple colorspace generation in Phase 2
+
+**Risk:** pybind11 exception handling issues
+- **Mitigation:** Test exception paths early in Phase 1
+
+**Risk:** NumPy array ownership issues
+- **Mitigation:** Use proper buffer protocol in Phase 1
+
+**Risk:** Matplotlib optional dependency issues
+- **Mitigation:** Try/except imports, clear error messages
+
+---
+
+## Success Criteria
+
+**Phase completion checklist:**
+- [ ] All tests passing
+- [ ] Code reviewed
+- [ ] Documentation updated
+- [ ] No known bugs in phase scope
+- [ ] Manual testing complete
+
+**v1.0.0 release criteria:**
+- [ ] All API_DESIGN.md features implemented (except future enhancements)
+- [ ] Test coverage ≥ 90%
+- [ ] Documentation complete
+- [ ] Works on Linux, macOS, Windows
+- [ ] Python 3.9+ support
+- [ ] No critical or high-priority bugs
+
+---
+
+## Notes
+
+- Each phase should take ~5 working days
+- Phases can overlap if team size allows
+- Adjust timeline based on C++ codebase complexity
+- Phase 1-3 are **critical path** - must be solid
+- Phases 4-6 can be reordered based on priorities
+- Future enhancements (named colors, config overrides) are **post-1.0**
+
+---
+
+End of roadmap.
