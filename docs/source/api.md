@@ -23,6 +23,7 @@ progress.
    :template: class.rst
 
     Color
+    Palette
 ```
 
 The `Color` class provides a simple interface for working with colors.
