@@ -399,6 +399,34 @@ class Palette:
         """Developer representation."""
         return self.__str__()
 
+    def _repr_html_(self) -> str:
+        """Return HTML representation for Jupyter/IPython.
+
+        Returns
+        -------
+        str
+            HTML string with colored swatches in a row
+        """
+        if not self._colors:
+            return '<div style="font-style: italic; color: #888;">Empty palette</div>'
+
+        swatches = []
+        for color in self._colors:
+            swatches.append(
+                f'<div style="display: inline-block; text-align: center; margin: 4px;">'
+                f'<div style="width: 60px; height: 60px; background-color: {color.hex()}; '
+                f'border: 1px solid #333; border-radius: 4px; margin-bottom: 4px;"></div>'
+                f'<div style="font-family: monospace; font-size: 11px;">{color.hex()}</div>'
+                f"</div>"
+            )
+
+        return (
+            f'<div style="display: flex; flex-wrap: wrap; gap: 4px; '
+            f'padding: 8px; background: #f5f5f5; border-radius: 4px;">'
+            f"{''.join(swatches)}"
+            f"</div>"
+        )
+
     def __eq__(self, other: object) -> bool:
         """Check equality with another Palette."""
         if not isinstance(other, Palette):

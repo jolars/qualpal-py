@@ -277,6 +277,22 @@ class Color:
         """Developer representation."""
         return f"Color('{self._hex}')"
 
+    def _repr_html_(self) -> str:
+        """Return HTML representation for Jupyter/IPython.
+
+        Returns
+        -------
+        str
+            HTML string with colored swatch and hex code
+        """
+        return (
+            f'<div style="display: inline-flex; align-items: center; gap: 8px;">'
+            f'<div style="width: 40px; height: 40px; background-color: {self._hex}; '
+            f'border: 1px solid #333; border-radius: 4px;"></div>'
+            f'<code style="font-family: monospace; font-size: 14px;">{self._hex}</code>'
+            f"</div>"
+        )
+
     def __eq__(self, other: object) -> bool:
         """Check equality with another Color or hex string."""
         if isinstance(other, Color):
