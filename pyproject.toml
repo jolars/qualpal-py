@@ -43,6 +43,7 @@ sdist.exclude = [".github"]
 [tool.scikit-build.cmake.define]
 CMAKE_CXX_STANDARD = "17"
 CMAKE_CXX_STANDARD_REQUIRED = "ON"
+CMAKE_EXPORT_COMPILE_COMMANDS = "ON"
 
 [tool.pytest.ini_options]
 minversion = "8.0"

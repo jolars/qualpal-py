@@ -34,7 +34,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(qualpal)
 
-pybind11_add_module(_qualpal src/main.cpp src/color_conversions.cpp)
+pybind11_add_module(_qualpal 
+    src/main.cpp 
+    src/color_conversions.cpp
+    src/palette_generation.cpp
+)
 target_link_libraries(_qualpal PRIVATE qualpal::qualpal)
 
 install(TARGETS _qualpal DESTINATION .)

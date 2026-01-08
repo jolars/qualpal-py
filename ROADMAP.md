@@ -161,28 +161,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ---
 
-## Phase 5: Color Manipulation (Week 5)
-
-**Goal:** Color transformation methods
-
-### 5.1 Basic Manipulation (Days 1-3)
-
-- [ ] `Color.lighten(amount)`
-- [ ] `Color.darken(amount)`
-- [ ] `Color.with_saturation(value)`
-- [ ] Tests ensuring immutability
-
-### 5.2 Advanced Manipulation (Days 4-5)
-
-- [ ] `Color.blend(other, ratio)`
-- [ ] Additional color operations as needed
-- [ ] Comprehensive tests
-
-**Deliverable:** All color manipulation methods working
-
----
-
-## Phase 6: Export & Visualization (Week 6)
+## Phase 5: Export & Visualization (Week 5)
 
 **Goal:** Output formats and display
 
@@ -190,7 +169,6 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 - [ ] `Palette.to_css(prefix)`
 - [ ] `Palette.to_json()`
-- [ ] `Palette.save()` for SVG
 - [ ] Tests for all formats
 
 ### 6.2 Matplotlib Integration (Days 4-5)
@@ -205,7 +183,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ---
 
-## Phase 7: Polish & Documentation (Week 7)
+## Phase 7: Polish & Documentation (Week 6)
 
 ### 7.1 Rich Display (Days 1-2)
 
@@ -231,7 +209,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ---
 
-## Phase 8: Package & Release (Week 8)
+## Phase 7: Package & Release (Week 7)
 
 ### 8.1 Packaging (Days 1-3)
 
