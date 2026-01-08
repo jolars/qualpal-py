@@ -177,6 +177,45 @@ class Color:
         l, c, h = _qualpal.rgb_to_lch(self._r, self._g, self._b)
         return (l, c, h)
 
+    def distance(self, other: Color | str, metric: str = "ciede2000") -> float:
+        """Calculate perceptual color difference to another color.
+
+        Parameters
+        ----------
+        other : Color | str
+            Another Color object or hex color string
+        metric : str
+            Distance metric to use. Options:
+            - 'ciede2000' (default): CIEDE2000 metric
+            - 'din99d': DIN99d metric
+            - 'cie76': CIE76 (Euclidean distance in Lab space)
+
+        Returns
+        -------
+        float
+            Perceptual color difference
+
+        Raises
+        ------
+        ValueError
+            If metric is invalid or other color is not a valid color
+
+        Examples
+        --------
+        >>> red = Color('#ff0000')
+        >>> green = Color('#00ff00')
+        >>> red.distance(green)
+        86.61
+        >>> red.distance('#00ff00', metric='din99d')
+        32.77
+        """
+        # Convert other to Color if it's a string
+        if isinstance(other, str):
+            other = Color(other)
+
+        # Call C++ function
+        return _qualpal.color_difference_cpp(self._hex, other._hex, metric)
+
     def __str__(self) -> str:
         """String representation (hex color)."""
         return self._hex

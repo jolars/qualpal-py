@@ -1,7 +1,9 @@
-#include "color_conversions.h"
-#include "palette_generation.h"
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+
+#include "color_conversions.h"
+#include "color_distance.h"
+#include "palette_generation.h"
 
 namespace py = pybind11;
 
@@ -83,4 +85,18 @@ PYBIND11_MODULE(_qualpal,
         py::arg("g"),
         py::arg("b"),
         "Convert RGB to LCH");
+
+  // Color distance calculations
+  m.def("color_difference_cpp",
+        &color_difference_cpp,
+        py::arg("hex1"),
+        py::arg("hex2"),
+        py::arg("metric"),
+        "Calculate color difference between two colors");
+
+  m.def("color_distance_matrix_cpp",
+        &color_distance_matrix_cpp,
+        py::arg("hex_colors"),
+        py::arg("metric"),
+        "Calculate distance matrix for a list of colors");
 }
