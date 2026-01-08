@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, overload
 
+import _qualpal
+
 from qualpal.color import Color
 
 if TYPE_CHECKING:
@@ -112,6 +114,126 @@ class Palette:
             List of RGB tuples in range [0.0, 1.0]
         """
         return [c.rgb() for c in self._colors]
+
+    def distance_matrix(self, metric: str = "ciede2000") -> list[list[float]]:
+        """Calculate pairwise distance matrix for all colors in the palette.
+
+        Parameters
+        ----------
+        metric : str
+            Distance metric to use. Options:
+            - 'ciede2000' (default): CIEDE2000 metric
+            - 'din99d': DIN99d metric
+            - 'cie76': CIE76 (Euclidean distance in Lab space)
+
+        Returns
+        -------
+        list[list[float]]
+            Symmetric distance matrix where element [i][j] is the distance
+            between colors i and j. Diagonal elements are 0.0.
+
+        Examples
+        --------
+        >>> from qualpal import Palette
+        >>> pal = Palette(['#ff0000', '#00ff00', '#0000ff'])
+        >>> matrix = pal.distance_matrix()
+        >>> len(matrix)
+        3
+        >>> matrix[0][0]  # Distance to self
+        0.0
+        """
+        # Get hex colors
+        hex_colors = [c.hex() for c in self._colors]
+
+        # Call C++ function (returns flat array)
+        flat_matrix = _qualpal.color_distance_matrix_cpp(hex_colors, metric)
+
+        # Convert to 2D list
+        n = len(self._colors)
+        matrix = []
+        for i in range(n):
+            row = flat_matrix[i * n : (i + 1) * n]
+            matrix.append(row)
+
+        return matrix
+
+    def min_distance(self, metric: str = "ciede2000") -> float:
+        """Get the minimum pairwise distance between any two colors.
+
+        Parameters
+        ----------
+        metric : str
+            Distance metric to use (default: 'ciede2000')
+
+        Returns
+        -------
+        float
+            Minimum distance between any pair of distinct colors
+
+        Examples
+        --------
+        >>> from qualpal import Palette
+        >>> pal = Palette(['#ff0000', '#00ff00', '#0000ff'])
+        >>> min_dist = pal.min_distance()
+        >>> min_dist > 0
+        True
+        """
+        if len(self._colors) < 2:
+            msg = "Need at least 2 colors to compute minimum distance"
+            raise ValueError(msg)
+
+        matrix = self.distance_matrix(metric)
+
+        # Find minimum non-zero distance
+        min_dist = float("inf")
+        for i in range(len(matrix)):
+            for j in range(i + 1, len(matrix)):  # Only upper triangle
+                dist = matrix[i][j]
+                if dist > 0 and dist < min_dist:
+                    min_dist = dist
+
+        return min_dist
+
+    def min_distances(self, metric: str = "ciede2000") -> list[float]:
+        """Get minimum distance for each color to its nearest neighbor.
+
+        Parameters
+        ----------
+        metric : str
+            Distance metric to use (default: 'ciede2000')
+
+        Returns
+        -------
+        list[float]
+            List where element i is the minimum distance from color i
+            to any other color in the palette
+
+        Examples
+        --------
+        >>> from qualpal import Palette
+        >>> pal = Palette(['#ff0000', '#00ff00', '#0000ff'])
+        >>> min_dists = pal.min_distances()
+        >>> len(min_dists)
+        3
+        >>> all(d > 0 for d in min_dists)
+        True
+        """
+        if len(self._colors) < 2:
+            msg = "Need at least 2 colors to compute minimum distances"
+            raise ValueError(msg)
+
+        matrix = self.distance_matrix(metric)
+
+        # For each color, find its minimum distance to any other color
+        min_dists = []
+        for i in range(len(matrix)):
+            min_dist = float("inf")
+            for j in range(len(matrix)):
+                if i != j and matrix[i][j] < min_dist:
+                    min_dist = matrix[i][j]
+            min_dists.append(min_dist)
+
+        return min_dists
 
     def __str__(self) -> str:
         """String representation showing hex colors."""
