@@ -16,6 +16,16 @@ requires-python = ">=3.9"
 dependencies = []
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: C++",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -123,7 +133,12 @@ convention = "numpy"
     "PTH",
     "EM",
 ] # Allow print, os.path, and direct string exceptions in docs
-"tests/**" = ["PLC0415", "PT012", "PTH", "EM"]  # Allow imports in functions, pytest style, os.path, string exceptions in tests
+"tests/**" = [
+    "PLC0415",
+    "PT012",
+    "PTH",
+    "EM",
+] # Allow imports in functions, pytest style, os.path, string exceptions in tests
 
 [tool.basedpyright]
 typeCheckingMode = "standard"
@@ -132,4 +147,3 @@ pythonPlatform = "All"
 include = ["qualpal", "tests"]
 exclude = ["build", "dist", ".venv", "**/__pycache__"]
 reportMissingTypeStubs = false                         # Third-party libraries may not have stubs
-
