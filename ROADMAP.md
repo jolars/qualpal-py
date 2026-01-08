@@ -160,13 +160,13 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 **Goal:** Output formats and display
 
-### 6.1 Export Formats (Days 1-3)
+### 5.1 Export Formats (Days 1-3)
 
 - [ ] `Palette.to_css(prefix)`
 - [ ] `Palette.to_json()`
 - [ ] Tests for all formats
 
-### 6.2 Matplotlib Integration (Days 4-5)
+### 5.2 Matplotlib Integration (Days 4-5)
 
 - [ ] `Palette.show(labels)` with matplotlib
 - [ ] Return Figure object
@@ -178,22 +178,22 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ---
 
-## Phase 7: Polish & Documentation (Week 6)
+## Phase 6: Polish & Documentation (Week 6)
 
-### 7.1 Rich Display (Days 1-2)
+### 6.1 Rich Display (Days 1-2)
 
 - [ ] Jupyter/IPython `_repr_html_()` for Color
 - [ ] Jupyter/IPython `_repr_html_()` for Palette
 - [ ] Test in actual Jupyter notebook
 
-### 7.2 Documentation (Days 3-4)
+### 6.2 Documentation (Days 3-4)
 
 - [ ] Docstrings for all public APIs
 - [ ] Type hints complete
 - [ ] Usage examples in docstrings
 - [ ] Update README with examples
 
-### 7.3 Testing & CI (Day 5)
+### 6.3 Testing & CI (Day 5)
 
 - [ ] Test coverage > 90%
 - [ ] CI pipeline running
@@ -206,14 +206,14 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ## Phase 7: Package & Release (Week 7)
 
-### 8.1 Packaging (Days 1-3)
+### 7.1 Packaging (Days 1-3)
 
 - [ ] Build system configuration
 - [ ] Wheel building with scikit-build-core
 - [ ] Test installation from wheel
 - [ ] Cross-platform testing (Linux, macOS, Windows)
 
-### 8.2 Release Preparation (Days 4-5)
+### 7.2 Release Preparation (Days 4-5)
 
 - [ ] CHANGELOG complete
 - [ ] Version 1.0.0 tag
