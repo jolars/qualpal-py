@@ -16,8 +16,14 @@
    .. autosummary::
       :nosignatures:
    
+      ~Palette.distance_matrix
       ~Palette.hex
+      ~Palette.min_distance
+      ~Palette.min_distances
       ~Palette.rgb
+      ~Palette.show
+      ~Palette.to_css
+      ~Palette.to_json
    
    
 

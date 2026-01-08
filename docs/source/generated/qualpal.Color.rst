@@ -16,6 +16,7 @@
    .. autosummary::
       :nosignatures:
    
+      ~Color.distance
       ~Color.from_hsl
       ~Color.from_rgb
       ~Color.hex
@@ -24,6 +25,7 @@
       ~Color.lch
       ~Color.rgb
       ~Color.rgb255
+      ~Color.simulate_cvd
       ~Color.xyz
    
    
