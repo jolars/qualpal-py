@@ -7,18 +7,13 @@
 
 Automatically generate qualitative color palettes with distinct colors.
 
-## Status
-
-🚧 **Under Active Development** - See [ROADMAP.md](ROADMAP.md) for progress.
-
 ## Installation
 
-**Requirements:** Python 3.9+, C++ compiler, CMake 3.15+
+Qualpal will soon be available on PyPI. In the meantime, you can install it directly from source,
+but note that this requires a C++ compiler.
 
 ```bash
-git clone https://github.com/jolars/qualpal-py.git
-cd qualpal-py
-uv pip install -e .
+pip install git+https://github.com/jolars/sortedl1
 ```
 
 ## Quick Start
@@ -28,41 +23,28 @@ from qualpal import Color
 
 # Create and work with colors
 color = Color("#ff0000")
-print(color.hex())     # "#ff0000"
-print(color.rgb())     # (1.0, 0.0, 0.0)
+print(color.hex())  # "#ff0000"
+print(color.rgb())  # (1.0, 0.0, 0.0)
 print(color.rgb255())  # (255, 0, 0)
 
 # Create from RGB
 green = Color.from_rgb(0.0, 1.0, 0.0)
-
-# Coming soon: Palette generation
-# from qualpal import Qualpal
-# qp = Qualpal(colorspace={'h': (0, 360), 's': (0.5, 1), 'l': (0.3, 0.7)})
-# palette = qp.generate(6)
 ```
 
 ## Documentation
 
-- [API Design](API_DESIGN.md) - Target API specification
-- [Roadmap](ROADMAP.md) - Implementation plan and progress
-- [Docs](https://jolars.github.io/qualpal-py/) - Full documentation
-
-## Architecture
-
-**Python-first approach:**
-- Python: API, data structures (Color, Palette, Qualpal), validation
-- C++: Performance-critical algorithms (palette generation, distances)
+The full documentation is available at <https://jolars.github.io/qualpal-py/>.
 
 ## Contributing
 
-Contributions welcome! See [ROADMAP.md](ROADMAP.md) for current status.
+Contributions are welcome!
+
+Note that the main functionality comes from the underlying C++ library,
+which is developed and maintained at <https://github.com/jolars/qualpal>.
+So if you want to contribute to the core algorithms, please do so there.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
+Qualpal is licensed under the [MIT license](LICENSE)
 
 ## References
-
-Based on qualpal C++ library: https://github.com/jolars/qualpal
-
-
