@@ -40,20 +40,20 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ### 1.2 Color Conversions (Day 3)
 
-- [ ] Add color space conversion methods (pure Python)
-- [ ] `hsl()`, `hsv()`, `lab()`, `lch()`, `xyz()`
-- [ ] `from_hsl()` class method
-- [ ] Tests for round-trip conversions
+- [x] Add color space conversion methods (pure Python)
+- [x] `hsl()`, `hsv()`, `lab()`, `lch()`, `xyz()`
+- [x] `from_hsl()` class method
+- [x] Tests for round-trip conversions
 
 ### 1.3 Palette Class - Basic (Days 4-5)
 
-- [ ] Pure Python `Palette` class
-- [ ] `__len__`, `__getitem__`, `__iter__`, `__contains__`
-- [ ] Slicing support (returns new Palette)
-- [ ] `hex()` method
-- [ ] `rgb()` method with `as_array` parameter
-- [ ] `__str__` and `__repr__`
-- [ ] Basic tests
+- [x] Pure Python `Palette` class
+- [x] `__len__`, `__getitem__`, `__iter__`, `__contains__`
+- [x] Slicing support (returns new Palette)
+- [x] `hex()` method
+- [x] `rgb()` method with `as_array` parameter
+- [x] `__str__` and `__repr__`
+- [x] Basic tests
 
 **Deliverable:** `Palette` object works like a Python list
 
