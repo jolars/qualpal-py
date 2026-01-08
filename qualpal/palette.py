@@ -159,6 +159,117 @@ class Palette:
         """
         return json.dumps(self.hex())
 
+    def show(
+        self, labels: bool | list[str] | None = None
+    ) -> object:  # Returns Figure if matplotlib available
+        """Display palette as color swatches (requires matplotlib).
+
+        Parameters
+        ----------
+        labels : bool | list[str] | None
+            - None (default): No labels
+            - True: Show hex codes as labels
+            - list[str]: Custom labels for each color
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+            Matplotlib Figure object that can be saved or further customized
+
+        Raises
+        ------
+        ImportError
+            If matplotlib is not installed
+
+        Examples
+        --------
+        >>> from qualpal import Palette
+        >>> pal = Palette(['#ff0000', '#00ff00', '#0000ff'])
+        >>> fig = pal.show()  # Display swatches
+        >>> fig = pal.show(labels=True)  # With hex codes
+        >>> fig = pal.show(labels=['Red', 'Green', 'Blue'])  # Custom labels
+        >>> fig.savefig('palette.png')  # Save to file
+        """
+        try:
+            import matplotlib.pyplot as plt  # noqa: PLC0415
+            from matplotlib.patches import Rectangle  # noqa: PLC0415
+        except ImportError as e:
+            msg = (
+                "matplotlib is required for palette visualization. "
+                "Install it with: pip install matplotlib"
+            )
+            raise ImportError(msg) from e
+
+        # Validate labels
+        if isinstance(labels, list) and len(labels) != len(self._colors):
+            msg = f"Number of labels ({len(labels)}) must match number of colors ({len(self._colors)})"
+            raise ValueError(msg)
+
+        # Create figure
+        n_colors = len(self._colors)
+
+        # Handle empty palette
+        if n_colors == 0:
+            fig, ax = plt.subplots(figsize=(2, 2))
+            ax.text(
+                0.5,
+                0.5,
+                "Empty palette",
+                ha="center",
+                va="center",
+                fontsize=12,
+                color="gray",
+            )
+            ax.set_xlim(0, 1)
+            ax.set_ylim(0, 1)
+            ax.axis("off")
+            plt.tight_layout()
+            return fig
+
+        fig, ax = plt.subplots(figsize=(n_colors * 1.5, 2))
+
+        # Draw color swatches
+        for i, color in enumerate(self._colors):
+            ax.add_patch(
+                Rectangle(
+                    (i, 0), 1, 1, facecolor=color.hex(), edgecolor="black", linewidth=1
+                )
+            )
+
+        # Set axis properties
+        ax.set_xlim(0, n_colors)
+        ax.set_ylim(0, 1)
+        ax.set_aspect("equal")
+        ax.axis("off")
+
+        # Add labels if requested
+        if labels is True:
+            # Use hex codes as labels
+            for i, color in enumerate(self._colors):
+                ax.text(
+                    i + 0.5,
+                    -0.15,
+                    color.hex(),
+                    ha="center",
+                    va="top",
+                    fontsize=9,
+                    family="monospace",
+                )
+        elif isinstance(labels, list):
+            # Use custom labels
+            for i, label in enumerate(labels):
+                ax.text(
+                    i + 0.5,
+                    -0.15,
+                    label,
+                    ha="center",
+                    va="top",
+                    fontsize=10,
+                )
+
+        plt.tight_layout()
+        return fig
+
     def distance_matrix(self, metric: str = "ciede2000") -> list[list[float]]:
         """Calculate pairwise distance matrix for all colors in the palette.
 

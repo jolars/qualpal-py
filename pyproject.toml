@@ -24,12 +24,17 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
+[project.optional-dependencies]
+viz = ["matplotlib>=3.5"]
+
 [dependency-groups]
+viz = ["matplotlib>=3.5"]
 test = ["pytest", "sphinx"]
 docs = ["sphinx", "furo", "sphinx-copybutton", "myst-parser", "myst-nb"]
 dev = [
     { include-group = "test" },
     { include-group = "docs" },
+    { include-group = "viz" },
     "basedpyright>=1.0.0",
     "typing-extensions>=4.0.0",
 ]
@@ -111,6 +116,7 @@ convention = "numpy"
     "PTH",
     "EM",
 ] # Allow print, os.path, and direct string exceptions in docs
+"tests/**" = ["PLC0415", "PT012", "PTH", "EM"]  # Allow imports in functions, pytest style, os.path, string exceptions in tests
 
 [tool.basedpyright]
 typeCheckingMode = "standard"
@@ -119,3 +125,4 @@ pythonPlatform = "All"
 include = ["qualpal", "tests"]
 exclude = ["build", "dist", ".venv", "**/__pycache__"]
 reportMissingTypeStubs = false                         # Third-party libraries may not have stubs
+

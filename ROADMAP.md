@@ -168,13 +168,13 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 **Deliverable:** Export formats working
 
-### 5.2 Matplotlib Integration (Days 4-5)
+### 5.2 Matplotlib Integration (Days 4-5) ✅ COMPLETE
 
-- [ ] `Palette.show(labels)` with matplotlib
-- [ ] Return Figure object
-- [ ] Graceful handling when matplotlib not installed
-- [ ] `Palette.save()` for PNG
-- [ ] Visual tests (manual review)
+- [x] `Palette.show(labels)` with matplotlib
+- [x] Return Figure object
+- [x] Graceful handling when matplotlib not installed
+- [x] Figure can be saved via `.savefig()`
+- [x] Tests (19 tests including visual functionality)
 
 **Deliverable:** Full export and visualization support
 
