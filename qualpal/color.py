@@ -75,7 +75,7 @@ class Color:
         return cls(hex_str)
 
     @classmethod
-    def from_hsl(cls, h: float, s: float, l: float) -> Self:  # noqa: E741
+    def from_hsl(cls, h: float, s: float, l: float) -> Self:
         """Create a Color from HSL values.
 
         Parameters
@@ -139,7 +139,7 @@ class Color:
             HSL values as (h, s, l) where h is in degrees [0, 360)
             and s, l are in range [0.0, 1.0]
         """
-        h, s, l = _qualpal.rgb_to_hsl(self._r, self._g, self._b)  # noqa: E741
+        h, s, l = _qualpal.rgb_to_hsl(self._r, self._g, self._b)
         return (h, s, l)
 
     def xyz(self) -> tuple[float, float, float]:
@@ -162,7 +162,7 @@ class Color:
             Lab values as (l, a, b) where l is in range [0, 100]
             and a, b are in range [-128, 127]
         """
-        l, a, b = _qualpal.rgb_to_lab(self._r, self._g, self._b)  # noqa: E741
+        l, a, b = _qualpal.rgb_to_lab(self._r, self._g, self._b)
         return (l, a, b)
 
     def lch(self) -> tuple[float, float, float]:
@@ -174,7 +174,7 @@ class Color:
             LCH values as (l, c, h) where l is in range [0, 100],
             c is chroma [0, ∞), and h is hue in degrees [0, 360)
         """
-        l, c, h = _qualpal.rgb_to_lch(self._r, self._g, self._b)  # noqa: E741
+        l, c, h = _qualpal.rgb_to_lch(self._r, self._g, self._b)
         return (l, c, h)
 
     def __str__(self) -> str:
