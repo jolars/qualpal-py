@@ -123,7 +123,6 @@ class TestColorSpaceConversions:
 
     def test_hsl_red(self):
         """Test HSL conversion for red."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#ff0000")
         h, s, l = color.hsl()
         # Red: h=0, s=1, l=0.5
@@ -133,7 +132,6 @@ class TestColorSpaceConversions:
 
     def test_hsl_green(self):
         """Test HSL conversion for green."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#00ff00")
         h, s, l = color.hsl()
         # Green: h=120, s=1, l=0.5
@@ -143,7 +141,6 @@ class TestColorSpaceConversions:
 
     def test_hsl_blue(self):
         """Test HSL conversion for blue."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#0000ff")
         h, s, l = color.hsl()
         # Blue: h=240, s=1, l=0.5
@@ -153,7 +150,6 @@ class TestColorSpaceConversions:
 
     def test_hsl_gray(self):
         """Test HSL conversion for gray."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#808080")
         h, s, l = color.hsl()
         # Gray: h=0 (arbitrary), s=0, l=0.5
@@ -162,7 +158,6 @@ class TestColorSpaceConversions:
 
     def test_from_hsl(self):
         """Test creating Color from HSL."""
-        pytest.importorskip("qualpal._qualpal")
         # Create red from HSL
         color = Color.from_hsl(0, 1.0, 0.5)
         r, g, b = color.rgb()
@@ -172,7 +167,6 @@ class TestColorSpaceConversions:
 
     def test_hsl_roundtrip(self):
         """Test HSL round-trip conversion."""
-        pytest.importorskip("qualpal._qualpal")
         original = Color("#ff6347")  # Tomato
         h, s, l = original.hsl()
         roundtrip = Color.from_hsl(h, s, l)
@@ -185,7 +179,6 @@ class TestColorSpaceConversions:
 
     def test_xyz_conversion(self):
         """Test XYZ conversion."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#ff0000")
         x, y, z = color.xyz()
         # Values should be reasonable
@@ -198,7 +191,6 @@ class TestColorSpaceConversions:
 
     def test_lab_conversion(self):
         """Test Lab conversion."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#ff0000")
         l, a, b = color.lab()
         # L should be in [0, 100]
@@ -211,7 +203,6 @@ class TestColorSpaceConversions:
 
     def test_lch_conversion(self):
         """Test LCH conversion."""
-        pytest.importorskip("qualpal._qualpal")
         color = Color("#ff0000")
         l, c, h = color.lch()
         # L should be in [0, 100]
@@ -220,22 +211,3 @@ class TestColorSpaceConversions:
         assert c >= 0.0
         # H (hue) should be in [0, 360)
         assert 0.0 <= h < 360.0
-
-    def test_conversion_without_cpp_raises(self, monkeypatch):
-        """Test that conversions raise ImportError without C++ extension."""
-        # Mock _qualpal as None
-        import qualpal.color
-
-        monkeypatch.setattr(qualpal.color, "_qualpal", None)
-        color = Color("#ff0000")
-        with pytest.raises(ImportError):
-            color.hsl()
-        with pytest.raises(ImportError):
-            color.xyz()
-        with pytest.raises(ImportError):
-            color.lab()
-        with pytest.raises(ImportError):
-            color.lch()
-        with pytest.raises(ImportError):
-            Color.from_hsl(0, 1.0, 0.5)
-

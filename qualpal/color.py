@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-from qualpal import _qualpal
+import _qualpal
 
 if TYPE_CHECKING:
     from typing_extensions import Self
