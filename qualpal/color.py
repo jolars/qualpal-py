@@ -8,6 +8,11 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing_extensions import Self
 
+try:
+    from qualpal import _qualpal
+except ImportError:
+    _qualpal = None  # type: ignore[assignment]
+
 
 class Color:
     """A color with various representations and conversions.
@@ -72,6 +77,37 @@ class Color:
 
         return cls(hex_str)
 
+    @classmethod
+    def from_hsl(cls, h: float, s: float, l: float) -> Self:
+        """Create a Color from HSL values.
+
+        Parameters
+        ----------
+        h : float
+            Hue in degrees [0.0, 360.0)
+        s : float
+            Saturation in range [0.0, 1.0]
+        l : float
+            Lightness in range [0.0, 1.0]
+
+        Returns
+        -------
+        Color
+            New Color object
+
+        Raises
+        ------
+        ImportError
+            If C++ extension is not available
+        """
+        if _qualpal is None:
+            msg = "C++ extension not available"
+            raise ImportError(msg)
+
+        # Convert HSL to RGB using C++ library
+        r, g, b = _qualpal.hsl_to_rgb(h, s, l)
+        return cls.from_rgb(r, g, b)
+
     def hex(self) -> str:
         """Get hex representation.
 
@@ -105,6 +141,89 @@ class Color:
             round(self._g * 255),
             round(self._b * 255),
         )
+
+    def hsl(self) -> tuple[float, float, float]:
+        """Get HSL tuple.
+
+        Returns
+        -------
+        tuple[float, float, float]
+            HSL values as (h, s, l) where h is in degrees [0, 360)
+            and s, l are in range [0.0, 1.0]
+
+        Raises
+        ------
+        ImportError
+            If C++ extension is not available
+        """
+        if _qualpal is None:
+            msg = "C++ extension not available"
+            raise ImportError(msg)
+
+        h, s, l = _qualpal.rgb_to_hsl(self._r, self._g, self._b)
+        return (h, s, l)
+
+    def xyz(self) -> tuple[float, float, float]:
+        """Get XYZ tuple.
+
+        Returns
+        -------
+        tuple[float, float, float]
+            XYZ values as (x, y, z)
+
+        Raises
+        ------
+        ImportError
+            If C++ extension is not available
+        """
+        if _qualpal is None:
+            msg = "C++ extension not available"
+            raise ImportError(msg)
+
+        x, y, z = _qualpal.rgb_to_xyz(self._r, self._g, self._b)
+        return (x, y, z)
+
+    def lab(self) -> tuple[float, float, float]:
+        """Get Lab tuple.
+
+        Returns
+        -------
+        tuple[float, float, float]
+            Lab values as (l, a, b) where l is in range [0, 100]
+            and a, b are in range [-128, 127]
+
+        Raises
+        ------
+        ImportError
+            If C++ extension is not available
+        """
+        if _qualpal is None:
+            msg = "C++ extension not available"
+            raise ImportError(msg)
+
+        l, a, b = _qualpal.rgb_to_lab(self._r, self._g, self._b)
+        return (l, a, b)
+
+    def lch(self) -> tuple[float, float, float]:
+        """Get LCH tuple.
+
+        Returns
+        -------
+        tuple[float, float, float]
+            LCH values as (l, c, h) where l is in range [0, 100],
+            c is chroma [0, ∞), and h is hue in degrees [0, 360)
+
+        Raises
+        ------
+        ImportError
+            If C++ extension is not available
+        """
+        if _qualpal is None:
+            msg = "C++ extension not available"
+            raise ImportError(msg)
+
+        l, c, h = _qualpal.rgb_to_lch(self._r, self._g, self._b)
+        return (l, c, h)
 
     def __str__(self) -> str:
         """String representation (hex color)."""
