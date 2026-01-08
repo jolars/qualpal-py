@@ -137,3 +137,10 @@ class Palette:
             return result
 
         return not result
+
+    def __hash__(self) -> int:
+        """Return hash of the palette.
+
+        Since Palette is immutable, it can be hashed.
+        """
+        return hash(tuple(self._colors))

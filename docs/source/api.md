@@ -15,4 +15,5 @@
 
     Color
     Palette
+    Qualpal
 ```

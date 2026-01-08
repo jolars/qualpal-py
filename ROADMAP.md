@@ -65,16 +65,16 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ### 2.1 Qualpal Class - Initialization (Days 1-2)
 
-- [ ] Pure Python `Qualpal` class
-- [ ] `__init__` with mutual exclusivity validation
-- [ ] Property setters with validation:
-  - [ ] `cvd`
-  - [ ] `metric`
-  - [ ] `background`
-  - [ ] `max_memory`
-  - [ ] `colorspace_size`
-- [ ] Colorspace parameter validation
-- [ ] Tests for all validation paths
+- [x] Pure Python `Qualpal` class
+- [x] `__init__` with mutual exclusivity validation
+- [x] Property setters with validation:
+  - [x] `cvd`
+  - [x] `metric`
+  - [x] `background`
+  - [x] `max_memory`
+  - [x] `colorspace_size`
+- [x] Colorspace parameter validation
+- [x] Tests for all validation paths
 
 **Deliverable:** `Qualpal()` initialization with all parameters
 
