@@ -41,25 +41,3 @@ tasks:
     desc: Auto-build documentation on changes
     cmds:
       - sphinx-autobuild docs/source docs/build --watch qualpal
-
-  update-qualpallib:
-    desc: Fetch and update the latest qualpal release
-    vars:
-      VERSION:
-        sh: gh release view --repo jolars/qualpal --json tagName --jq .tagName
-    cmds:
-      - echo "Fetching latest qualpal release..."
-      - mkdir -p tmp
-      - mkdir -p include
-      - gh release download --repo jolars/qualpal --dir tmp/ --archive=tar.gz --clobber
-      - cd tmp && tar xzf *.tar.gz --strip-components=1
-      - rm -rf src/qualpal
-      - mkdir -p src/qualpal
-      - cp -r tmp/src/qualpal/* src/qualpal/
-      - echo "# WARNING! DO NOT MODIFY FILES IN THIS DIRECTORY" >> src/qualpal/DO_NOT_MODIFY
-      - echo "# These files are automatically updated from https://github.com/jolars/qualpal" >> src/qualpal/DO_NOT_MODIFY
-      - rm -rf include/qualpal
-      - rm -rf include/qualpal.h
-      - cp -ri tmp/include ./
-      - rm -rf tmp
-    silent: true
