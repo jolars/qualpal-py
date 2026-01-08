@@ -11,6 +11,7 @@ description = "Automatically generate qualitative color palettes with distinct c
 readme = "README.md"
 maintainers = [{ name = "Johan Larsson", email = "johan@jolars.co" }]
 authors = [{ name = "Johan Larsson", email = "johan@jolars.co" }]
+keywords = ["color", "palette", "qualitative", "visualization", "data-science"]
 requires-python = ">=3.9"
 dependencies = []
 classifiers = [
