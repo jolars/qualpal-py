@@ -7,18 +7,18 @@
 **Status:** 🚧 Work in Progress - See `ROADMAP.md` for current implementation status.
 
 **Code Quality Requirements:**
+
 - ✅ `ruff format --check .` must pass (formatting)
-- ✅ `ruff check .` must pass (linting)  
+- ✅ `ruff check .` must pass (linting)
 - ✅ `basedpyright qualpal` must pass (type checking)
 - ✅ `python -m pytest` must pass (tests)
 
 **Quick Fix:** Use `ruff format .` and `ruff check --fix .` to auto-fix most issues before committing.
 
-**Architecture:** Python-first approach
-- **Python layer**: API, data structures (Color, Palette, Qualpal classes), validation
-- **C++ layer**: Performance-critical algorithms (palette generation, distance calculations)
+**Architecture:** Thin Python layer over C++ library
 
-**Key Point:** Pure Python classes (Color, Palette) can be developed and tested WITHOUT building the C++ extension.
+- **Python layer**: API, data structures (Color, Palette, Qualpal classes), validation
+- **C++ layer**: Algorithms, color conversions, performance-critical code.
 
 **Languages:** Python 3.9+, C++17  
 **Build System:** scikit-build-core + CMake + pybind11  
@@ -68,41 +68,19 @@ source .venv/bin/activate  # Linux/macOS
 ### Installation
 
 **Development install (with C++ build):**
-```bash
-uv pip install -e .
-```
 
-**With test dependencies:**
 ```bash
-uv pip install -e . --group test
-```
-
-**With docs dependencies:**
-```bash
-uv pip install -e . --group docs
+uv pip install -e . --group dev
 ```
 
 **Build time:** ~60-120 seconds (first build), ~10-30 seconds (incremental)
 
 ### Testing
 
-**Test pure Python code (NO C++ BUILD NEEDED):**
-```bash
-# Only test Color class (no build required)
-python -m pytest tests/test_color.py -v
-```
-
-**Test after C++ build:**
 ```bash
 # Run all tests
 python -m pytest
-
-# With coverage
-coverage run -m pytest
-coverage report
 ```
-
-**Test command from CI:** `python -m pytest tests`
 
 ### Building Documentation
 
@@ -131,6 +109,7 @@ basedpyright qualpal
 ```
 
 **To verify before PR/commit:**
+
 ```bash
 ruff format --check .     # Must pass - no formatting changes needed
 ruff check .              # Must pass - no linting errors
@@ -138,6 +117,7 @@ basedpyright qualpal      # Must pass - no type errors
 ```
 
 **Configuration:**
+
 - Ruff: `pyproject.toml` under `[tool.ruff]`
 - Docstring convention: numpy style
 - Type checking: basedpyright with "standard" mode, Python 3.9+ target
@@ -151,10 +131,10 @@ basedpyright qualpal      # Must pass - no type errors
 The C++ extension is built automatically by `scikit-build-core` during `pip install`.
 
 **Key CMake facts:**
+
 - Fetches qualpal C++ library v3.4.0 from GitHub via FetchContent
 - Sets `CMAKE_POSITION_INDEPENDENT_CODE ON` (required for Linux)
 - Defines `_USE_MATH_DEFINES` on Windows (required for M_PI constant)
-- **OpenMP is disabled on MSVC** (Windows) due to SIMD pragma issues
 - Creates `_qualpal` module (imported as `from qualpal import _qualpal`)
 
 **Build directory:** `build/{wheel_tag}/` (per Python version/platform)
@@ -163,12 +143,8 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
 
 1. **Linux: "relocation R_X86_64_PC32" error**
    - Fixed by `CMAKE_POSITION_INDEPENDENT_CODE ON` in CMakeLists.txt
-   
 2. **Windows: "M_PI undeclared identifier"**
    - Fixed by `_USE_MATH_DEFINES` in CMakeLists.txt
-
-3. **Windows: OpenMP SIMD errors**
-   - OpenMP is intentionally disabled on MSVC (not performance-critical for typical use)
 
 ### Python Package
 
@@ -177,18 +153,6 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
 - **Python support:** 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
 
 ## Development Workflow
-
-### When Working on Pure Python Code (Color, Palette)
-
-1. Edit Python files in `qualpal/`
-2. Run tests directly: `python -m pytest tests/test_color.py`
-3. **NO rebuild needed** - changes are immediate
-
-### When Working on C++ Bindings
-
-1. Edit `src/main.cpp`
-2. Rebuild: `uv pip install -e . --no-build-isolation` (faster, skips dep check)
-3. Test: `python -m pytest`
 
 ### Adding New Features
 
@@ -229,6 +193,7 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
 ## Key Files & Configuration
 
 ### pyproject.toml
+
 - Package metadata
 - Build system config (`scikit-build-core`)
 - Dependency groups: test, docs, dev
@@ -237,17 +202,20 @@ The C++ extension is built automatically by `scikit-build-core` during `pip inst
 - cibuildwheel configuration
 
 ### CMakeLists.txt
+
 - C++ build configuration
 - Fetches qualpal C++ library
 - Creates `_qualpal` Python module
 - Platform-specific fixes (OpenMP, M_PI)
 
 ### API_DESIGN.md
+
 - Complete specification of target API
 - Includes all classes, methods, parameters
 - Use this as reference for what to implement
 
 ### ROADMAP.md
+
 - Phase-by-phase implementation plan
 - Tracks completion status with checkboxes
 - Estimated timeline: 8 weeks to v1.0
@@ -298,12 +266,14 @@ task docs      # Build docs
 ## Trust These Instructions
 
 These instructions have been validated by:
+
 - Running builds on Linux, macOS, Windows
 - Testing with Python 3.10, 3.13
 - Reviewing CI logs and fixing documented issues
 - Implementing multiple phases successfully
 
 **Only search for additional information if:**
+
 - These instructions are incomplete for your task
 - You encounter an error not documented here
 - The codebase structure has changed significantly

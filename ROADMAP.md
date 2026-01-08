@@ -9,10 +9,12 @@
 
 ## Overview
 
-Incremental development plan for qualpal Python bindings using a **Python-first architecture**:
+Incremental development plan for qualpal Python bindings. Classes
+and methods will be implemented in phases, focusing on core functionality first, then adding features.
 
-- Python handles API, data structures, validation
-- C++ handles performance-critical algorithms only
+- Python handles API, data structures, validation. Python is mostly
+  a thin layer unless it is trivial to implement in Python.
+- C++ handles algorithms, color conversions, and so on.
 
 Each phase builds on the previous, allowing testing and validation at every step.
 
@@ -20,7 +22,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ## Phase 1: Core Foundation (Week 1)
 
-**Goal:** Basic Python classes with minimal C++ algorithm bindings
+**Goal:** Basic Python classes
 
 ### 1.1 Color Class (Days 1-2) ✅ COMPLETE
 
@@ -34,7 +36,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 - [x] Validation
 - [x] Basic tests
 
-**Deliverable:** `Color('#ff0000')` works in Python (no C++ build needed)
+**Deliverable:** `Color('#ff0000')` works
 
 ### 1.2 Color Conversions (Day 3)
 
@@ -53,7 +55,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 - [ ] `__str__` and `__repr__`
 - [ ] Basic tests
 
-**Deliverable:** `Palette` object works like Python list (no C++ build needed)
+**Deliverable:** `Palette` object works like a Python list
 
 ---
 
@@ -74,7 +76,7 @@ Each phase builds on the previous, allowing testing and validation at every step
 - [ ] Colorspace parameter validation
 - [ ] Tests for all validation paths
 
-**Deliverable:** `Qualpal()` initialization with all parameters (no C++ needed yet)
+**Deliverable:** `Qualpal()` initialization with all parameters
 
 ### 2.2 C++ Algorithm Binding (Day 3)
 
