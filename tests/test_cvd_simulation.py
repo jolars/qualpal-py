@@ -127,7 +127,7 @@ class TestCVDSeverityLevels:
         result = color.simulate_cvd("protan", severity=0.25)
 
         # Should be close to original but not identical
-        assert result.hex() != color.hex() 
+        assert result.hex() != color.hex()
 
     def test_moderate_severity(self):
         """Test moderate CVD (severity=0.5)."""

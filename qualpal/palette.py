@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING, overload
 
 import _qualpal
@@ -114,6 +115,49 @@ class Palette:
             List of RGB tuples in range [0.0, 1.0]
         """
         return [c.rgb() for c in self._colors]
+
+    def to_css(self, prefix: str = "color") -> list[str]:
+        """Export palette as CSS custom properties (CSS variables).
+
+        Parameters
+        ----------
+        prefix : str
+            Prefix for CSS variable names (default: 'color')
+
+        Returns
+        -------
+        list[str]
+            List of CSS custom property declarations
+
+        Examples
+        --------
+        >>> from qualpal import Palette
+        >>> pal = Palette(['#ff0000', '#00ff00', '#0000ff'])
+        >>> pal.to_css()
+        ['--color-1: #ff0000;', '--color-2: #00ff00;', '--color-3: #0000ff;']
+        >>> pal.to_css(prefix='theme')
+        ['--theme-1: #ff0000;', '--theme-2: #00ff00;', '--theme-3: #0000ff;']
+        """
+        return [
+            f"--{prefix}-{i}: {color.hex()};" for i, color in enumerate(self._colors, 1)
+        ]
+
+    def to_json(self) -> str:
+        """Export palette as JSON array of hex colors.
+
+        Returns
+        -------
+        str
+            JSON string containing array of hex color strings
+
+        Examples
+        --------
+        >>> from qualpal import Palette
+        >>> pal = Palette(['#ff0000', '#00ff00', '#0000ff'])
+        >>> pal.to_json()
+        '["#ff0000", "#00ff00", "#0000ff"]'
+        """
+        return json.dumps(self.hex())
 
     def distance_matrix(self, metric: str = "ciede2000") -> list[list[float]]:
         """Calculate pairwise distance matrix for all colors in the palette.
