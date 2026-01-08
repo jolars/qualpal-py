@@ -1,5 +1,15 @@
+#include "color_conversions.h"
+
 #include <array>
 #include <qualpal.h>
+
+// Forward declare from cvd.cpp
+namespace qualpal {
+colors::RGB
+simulateCvd(const colors::RGB& rgb,
+            const std::string_view cvd_type,
+            double cvd_severity);
+}
 
 std::array<double, 3>
 rgb_to_hsl(double r, double g, double b)
@@ -39,4 +49,16 @@ rgb_to_lch(double r, double g, double b)
   qualpal::colors::RGB rgb(r, g, b);
   qualpal::colors::LCHab lch(rgb);
   return { lch.l(), lch.c(), lch.h() };
+}
+
+std::array<double, 3>
+simulate_cvd_cpp(double r,
+                 double g,
+                 double b,
+                 const std::string& cvd_type,
+                 double severity)
+{
+  qualpal::colors::RGB rgb(r, g, b);
+  qualpal::colors::RGB simulated = qualpal::simulateCvd(rgb, cvd_type, severity);
+  return { simulated.r(), simulated.g(), simulated.b() };
 }

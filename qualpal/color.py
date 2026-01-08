@@ -216,6 +216,59 @@ class Color:
         # Call C++ function
         return _qualpal.color_difference_cpp(self._hex, other._hex, metric)
 
+    def simulate_cvd(self, cvd_type: str, severity: float = 1.0) -> Color:
+        """Simulate color vision deficiency on this color.
+
+        Parameters
+        ----------
+        cvd_type : str
+            Type of color vision deficiency:
+            - 'protan': Protanomaly/Protanopia (red-weak/blind)
+            - 'deutan': Deuteranomaly/Deuteranopia (green-weak/blind)
+            - 'tritan': Tritanomaly/Tritanopia (blue-weak/blind)
+        severity : float
+            Severity of the deficiency in range [0, 1]:
+            - 0.0: Normal vision (no change)
+            - 1.0: Complete deficiency
+
+        Returns
+        -------
+        Color
+            New Color object showing how this color appears with CVD
+
+        Raises
+        ------
+        ValueError
+            If cvd_type is invalid or severity is out of range
+
+        Examples
+        --------
+        >>> red = Color('#ff0000')
+        >>> red_protan = red.simulate_cvd('protan', severity=1.0)
+        >>> red_deutan = red.simulate_cvd('deutan', severity=0.5)
+        """
+        # Validate cvd_type
+        valid_types = {"protan", "deutan", "tritan"}
+        if cvd_type not in valid_types:
+            msg = f"cvd_type must be one of {valid_types}, got '{cvd_type}'"
+            raise ValueError(msg)
+
+        # Validate severity
+        if not isinstance(severity, (int, float)):
+            msg = "severity must be a number"
+            raise TypeError(msg)
+        if not 0.0 <= severity <= 1.0:
+            msg = f"severity must be in range [0, 1], got {severity}"
+            raise ValueError(msg)
+
+        # Call C++ function
+        r_sim, g_sim, b_sim = _qualpal.simulate_cvd_cpp(
+            self._r, self._g, self._b, cvd_type, severity
+        )
+
+        # Create new Color from simulated RGB
+        return Color.from_rgb(r_sim, g_sim, b_sim)
+
     def __str__(self) -> str:
         """String representation (hex color)."""
         return self._hex

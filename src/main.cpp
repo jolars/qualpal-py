@@ -86,6 +86,15 @@ PYBIND11_MODULE(_qualpal,
         py::arg("b"),
         "Convert RGB to LCH");
 
+  m.def("simulate_cvd_cpp",
+        &simulate_cvd_cpp,
+        py::arg("r"),
+        py::arg("g"),
+        py::arg("b"),
+        py::arg("cvd_type"),
+        py::arg("severity"),
+        "Simulate color vision deficiency on RGB color");
+
   // Color distance calculations
   m.def("color_difference_cpp",
         &color_difference_cpp,

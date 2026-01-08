@@ -137,12 +137,14 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 **Goal:** Color vision deficiency simulation
 
-### 4.1 CVD Simulation (Days 1-3)
+### 4.1 CVD Simulation (Days 1-3) ✅ COMPLETE
 
-- [ ] Bind CVD simulation from C++
-- [ ] `Color.simulate_cvd(type, severity)` method
-- [ ] Integrate CVD into generation
-- [ ] Tests with different CVD types
+- [x] Bind CVD simulation from C++
+- [x] `Color.simulate_cvd(type, severity)` method
+- [x] Support for protan, deutan, tritan
+- [x] Tests with different CVD types
+
+**Note:** CVD is already integrated into palette generation via the `cvd` parameter in Qualpal (Phase 2.1)
 
 ### 4.2 Named Palettes (Days 4-5) ✅ COMPLETE
 

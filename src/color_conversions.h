@@ -10,6 +10,7 @@
 #pragma once
 
 #include <array>
+#include <string>
 
 /**
  * @brief Convert RGB to HSL color space
@@ -69,3 +70,19 @@ rgb_to_lab(double r, double g, double b);
  */
 std::array<double, 3>
 rgb_to_lch(double r, double g, double b);
+
+/**
+ * @brief Simulate color vision deficiency on an RGB color
+ * @param r Red component in range [0, 1]
+ * @param g Green component in range [0, 1]
+ * @param b Blue component in range [0, 1]
+ * @param cvd_type Type of CVD: "protan", "deutan", or "tritan"
+ * @param severity Severity in range [0, 1] where 0=normal, 1=complete deficiency
+ * @return Array of [red, green, blue] in range [0, 1] after CVD simulation
+ */
+std::array<double, 3>
+simulate_cvd_cpp(double r,
+                 double g,
+                 double b,
+                 const std::string& cvd_type,
+                 double severity);

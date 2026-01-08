@@ -23,7 +23,7 @@ def list_palettes() -> dict[str, list[str]]:
     dict_keys(['ColorBrewer', 'Pokemon', 'Ochre', ...])
     >>> print(palettes['ColorBrewer'][:3])
     ['Accent', 'Blues', 'BrBG']
-    
+
     >>> # Use with Qualpal
     >>> from qualpal import Qualpal
     >>> qp = Qualpal(palette='ColorBrewer:Set2')
