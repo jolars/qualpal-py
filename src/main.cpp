@@ -99,4 +99,8 @@ PYBIND11_MODULE(_qualpal,
         py::arg("hex_colors"),
         py::arg("metric"),
         "Calculate distance matrix for a list of colors");
+
+  m.def("list_palettes_cpp",
+        &list_palettes_cpp,
+        "List all available named palettes");
 }

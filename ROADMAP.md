@@ -129,12 +129,6 @@ Each phase builds on the previous, allowing testing and validation at every step
 - [x] `Palette.min_distances(metric)` (calls C++)
 - [x] Comprehensive tests
 
-### 3.3 Utility Functions (Day 5)
-
-- [ ] `analyze_palette()` function
-- [ ] `qualpal()` convenience function
-- [ ] Tests
-
 **Deliverable:** Full analysis API working
 
 ---
@@ -150,14 +144,13 @@ Each phase builds on the previous, allowing testing and validation at every step
 - [ ] Integrate CVD into generation
 - [ ] Tests with different CVD types
 
-### 4.2 Named Palettes (Days 4-5)
+### 4.2 Named Palettes (Days 4-5) ✅ COMPLETE
 
-- [ ] `list_palettes()` function
-- [ ] Support `palette` parameter in Qualpal
-- [ ] Load palettes from C++
-- [ ] Tests
+- [x] Support `palette` parameter in Qualpal (completed in Phase 2.4)
+- [x] `list_palettes()` function
+- [x] Tests for listing palettes
 
-**Deliverable:** CVD-safe generation working
+**Deliverable:** Named palette support complete
 
 ---
 
@@ -231,15 +224,6 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ## Testing Strategy
 
-**Python-First Benefits:**
-
-- Python classes can be tested without C++ build
-- Faster test iteration (no compilation)
-- Better test isolation and mocking
-- Easier debugging with Python debugger
-
-**Each phase must include:**
-
 1. Unit tests for new functionality
 2. Integration tests where applicable
 3. Error handling tests
@@ -261,7 +245,6 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 - pybind11
 - pytest
-- numpy
 
 **Phase 6:**
 

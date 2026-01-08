@@ -9,6 +9,12 @@
 #include <qualpal/colors.h>
 #include <qualpal/metrics.h>
 
+// Forward declare from palettes.cpp
+namespace qualpal {
+std::map<std::string, std::vector<std::string>>
+listAvailablePalettes();
+}
+
 double
 color_difference_cpp(const std::string& hex1,
                      const std::string& hex2,
@@ -66,4 +72,10 @@ color_distance_matrix_cpp(const std::vector<std::string>& hex_colors,
   }
 
   return result;
+}
+
+std::map<std::string, std::vector<std::string>>
+list_palettes_cpp()
+{
+  return qualpal::listAvailablePalettes();
 }
