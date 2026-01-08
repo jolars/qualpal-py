@@ -5,6 +5,11 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
+import _qualpal
+
+from qualpal.color import Color
+from qualpal.palette import Palette
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -302,3 +307,89 @@ class Qualpal:
             msg = "colorspace_size must be positive"
             raise ValueError(msg)
         self._colorspace_size = value
+
+    def generate(self, n: int) -> Palette:
+        """Generate a color palette with n distinct colors.
+
+        Parameters
+        ----------
+        n : int
+            Number of colors to generate.
+
+        Returns
+        -------
+        Palette
+            A Palette object containing n Color objects.
+
+        Raises
+        ------
+        RuntimeError
+            If palette generation fails (e.g., C++ algorithm error).
+        ValueError
+            If n is not positive.
+        TypeError
+            If n is not an integer.
+
+        Notes
+        -----
+        Behavior depends on input mode:
+
+        - **colorspace mode**: Samples n colors from the continuous color space
+        - **colors mode**: Selects n most distinct colors from the provided list
+        - **palette mode**: Loads named palette and selects n most distinct colors
+        """
+        if not isinstance(n, int):
+            msg = "n must be an integer"
+            raise TypeError(msg)
+        if n <= 0:
+            msg = "n must be positive"
+            raise ValueError(msg)
+
+        # Determine input mode and call appropriate C++ function
+        try:
+            if self._colors is not None:
+                # Colors mode: select from provided colors
+                hex_colors = _qualpal.generate_palette_from_colors_cpp(
+                    n=n, colors=list(self._colors)
+                )
+            elif self._palette is not None:
+                # Palette mode: load named palette and select
+                hex_colors = _qualpal.generate_palette_from_palette_cpp(
+                    n=n, palette_name=self._palette
+                )
+            elif self._colorspace is not None:
+                # Colorspace mode: sample from color space
+                # Convert colorspace to C++ format
+                if self._space == "hsl":
+                    h_range = list(self._colorspace["h"])
+                    c_range = list(self._colorspace["s"])  # saturation -> chroma
+                    l_range = list(self._colorspace["l"])
+                elif self._space == "lchab":
+                    h_range = list(self._colorspace["h"])
+                    c_range = list(self._colorspace["c"])
+                    l_range = list(self._colorspace["l"])
+                else:
+                    msg = f"Unsupported color space: {self._space}"
+                    raise RuntimeError(msg)
+
+                hex_colors = _qualpal.generate_palette_cpp(
+                    n=n, h_range=h_range, c_range=c_range, l_range=l_range
+                )
+            else:
+                msg = "No input source available for generation"
+                raise RuntimeError(msg)
+
+        except ValueError as e:
+            # Re-raise C++ validation errors with context
+            msg = f"Palette generation failed: {e}"
+            raise RuntimeError(msg) from e
+        except Exception as e:
+            # Catch any other C++ exceptions
+            msg = f"Unexpected error during palette generation: {e}"
+            raise RuntimeError(msg) from e
+
+        # Convert hex strings to Color objects
+        colors = [Color(hex_color) for hex_color in hex_colors]
+
+        # Return Palette object
+        return Palette(colors)

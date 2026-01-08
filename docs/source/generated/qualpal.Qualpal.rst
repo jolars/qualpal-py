@@ -16,6 +16,7 @@
    .. autosummary::
       :nosignatures:
    
+      ~Qualpal.generate
    
    
 

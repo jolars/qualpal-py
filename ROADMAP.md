@@ -80,21 +80,32 @@ Each phase builds on the previous, allowing testing and validation at every step
 
 ### 2.2 C++ Algorithm Binding (Day 3)
 
-- [ ] Test C++ `generate_palette_cpp()` binding
-- [ ] Add error handling for C++ exceptions
-- [ ] Test basic generation from Python
+- [x] Test C++ `generate_palette_cpp()` binding
+- [x] Add error handling for C++ exceptions
+- [x] Test basic generation from Python
 
 **Deliverable:** C++ algorithm callable from Python
 
-### 2.3 Integration (Days 4-5)
+### 2.3 Integration (Days 4-5) ✅ COMPLETE
 
-- [ ] Implement `Qualpal.generate(n)` method calling C++
-- [ ] Support colorspace-only mode first
-- [ ] Return `Palette` object with `Color` objects
-- [ ] Error handling (RuntimeError on failure)
-- [ ] Integration tests
+- [x] Implement `Qualpal.generate(n)` method calling C++
+- [x] Support colorspace-only mode first
+- [x] Return `Palette` object with `Color` objects
+- [x] Error handling (RuntimeError on failure)
+- [x] Integration tests
 
 **Deliverable:** `qp.generate(6)` returns valid `Palette` with `Color` objects
+
+### 2.4 Additional Input Modes (Days 6-7) ✅ COMPLETE
+
+- [x] Support `colors` input mode in `generate()`
+- [x] Bind C++ `setInputHex()` and call from Python
+- [x] Support `palette` input mode in `generate()`
+- [x] Bind C++ `setInputPalette()` and call from Python
+- [x] Add tests for colors and palette modes
+- [x] Update integration tests
+
+**Deliverable:** All three input modes (colorspace, colors, palette) working
 
 ---
 
