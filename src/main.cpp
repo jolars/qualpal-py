@@ -29,10 +29,6 @@ generate_palette_cpp(int n,
   return hex_colors;
 }
 
-// ============================================================================
-// Module definition
-// ============================================================================
-
 PYBIND11_MODULE(_qualpal,
                 m,
                 py::mod_gil_not_used(),
