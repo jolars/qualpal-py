@@ -11,6 +11,7 @@
     pkgs.basedpyright
     pkgs.ruff
     pkgs.go-task
+    pkgs.bashInteractive
   ];
 
   # https://devenv.sh/languages/
