@@ -152,7 +152,7 @@ class TestColorSpaceConversions:
         """Test HSL conversion for gray."""
         color = Color("#808080")
         h, s, l = color.hsl()
-        # Gray: h=0 (arbitrary), s=0, l=0.5
+        assert h == pytest.approx(0.0, abs=1e-3)
         assert s == pytest.approx(0.0, abs=1e-3)
         assert l == pytest.approx(0.5, abs=0.02)
 
