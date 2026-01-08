@@ -126,10 +126,6 @@ palette.to_css(prefix="theme")  # ['--theme-1: #ff0000;', ...]
 
 # Export to JSON
 palette.to_json()  # '["#ff0000", "#00ff00", ...]'
-
-# Save as SVG swatch
-palette.save("palette.svg")  # Creates SVG file with color swatches
-palette.save("palette.png")  # Requires matplotlib, saves as PNG
 ```
 
 ### Analysis Methods
@@ -222,12 +218,6 @@ color1.distance(color2, metric="ciede2000")  # float
 
 # CVD simulation
 color_simulated = color.simulate_cvd("protan", severity=0.5)
-
-# Color manipulation (returns new Color objects)
-lighter = color.lighten(0.1)  # Increase lightness by 10%
-darker = color.darken(0.1)  # Decrease lightness by 10%
-saturated = color.with_saturation(0.8)  # Set saturation to 0.8
-blended = color.blend(other_color, 0.5)  # 50/50 blend
 
 # Equality comparison (based on hex value)
 color1 = Color("#ff0000")
@@ -473,7 +463,6 @@ plt.show()
 
 ### Dependencies
 
-- **Required**: `numpy`
 - **Optional**: `matplotlib` (for visualization)
 - **Binding**: Use `pybind11` for C++ bindings
 
@@ -698,7 +687,6 @@ All RGB arrays:
 
 - C++ exceptions from invalid palette names will be automatically converted to Python `ValueError` via pybind11
 - All validation happens eagerly (at assignment/initialization) rather than lazily (at generation time)
-- No `Palette.optimize()` method planned - users should regenerate with better constraints instead
 
 ---
 
