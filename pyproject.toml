@@ -60,7 +60,7 @@ dev = [
 minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 wheel.expand-macos-universal-tags = true
-sdist.exclude = [".github"]
+sdist.exclude = [".github", ".pre-commit-config.yaml"]
 
 [tool.scikit-build.cmake.define]
 CMAKE_CXX_STANDARD = "17"
