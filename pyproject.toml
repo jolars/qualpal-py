@@ -36,6 +36,7 @@ classifiers = [
 
 [project.urls]
 homepage = "https://github.com/jolars/qualpal-py"
+repository = "https://github.com/jolars/qualpal-py"
 documentation = "https://jolars.github.io/qualpal-py/"
 changelog = "https://github.com/jolars/qualpal-py/blob/main/CHANGELOG.md"
 tracker = "https://github.com/jolars/qualpal-py/issues"
