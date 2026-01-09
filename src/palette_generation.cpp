@@ -109,3 +109,23 @@ generate_palette_from_palette_cpp(int n, const std::string& palette_name)
                                       std::nullopt, std::nullopt, std::nullopt,
                                       std::nullopt);
 }
+
+// Forward declare from qualpal library
+namespace qualpal {
+std::map<std::string, std::vector<std::string>>
+listAvailablePalettes();
+std::vector<std::string>
+getPalette(const std::string& palette);
+}
+
+std::map<std::string, std::vector<std::string>>
+list_palettes_cpp()
+{
+  return qualpal::listAvailablePalettes();
+}
+
+std::vector<std::string>
+get_palette_cpp(const std::string& palette_name)
+{
+  return qualpal::getPalette(palette_name);
+}

@@ -93,3 +93,18 @@ generate_palette_from_colors_cpp(int n, const std::vector<std::string>& colors);
  */
 std::vector<std::string>
 generate_palette_from_palette_cpp(int n, const std::string& palette_name);
+
+/**
+ * @brief List all available named palettes
+ * @return Map of package names to lists of palette names
+ */
+std::map<std::string, std::vector<std::string>>
+list_palettes_cpp();
+
+/**
+ * @brief Get a specific named palette
+ * @param palette_name Palette name in format "package:name" (e.g., "ColorBrewer:Set2")
+ * @return Vector of hex color strings in the palette
+ */
+std::vector<std::string>
+get_palette_cpp(const std::string& palette_name);

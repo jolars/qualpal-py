@@ -30,10 +30,3 @@ color_difference_cpp(const std::string& hex1,
 std::vector<double>
 color_distance_matrix_cpp(const std::vector<std::string>& hex_colors,
                           const std::string& metric);
-
-/**
- * @brief List all available named palettes
- * @return Map of package names to lists of palette names
- */
-std::map<std::string, std::vector<std::string>>
-list_palettes_cpp();

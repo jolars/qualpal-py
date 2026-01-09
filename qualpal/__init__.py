@@ -5,8 +5,8 @@ from __future__ import annotations
 from .color import Color
 from .palette import Palette
 from .qualpal import Qualpal
-from .utils import list_palettes
+from .utils import get_palette, list_palettes
 
-__all__ = ["Color", "Palette", "Qualpal", "list_palettes"]
+__all__ = ["Color", "Palette", "Qualpal", "get_palette", "list_palettes"]
 
 __version__ = "1.0.0"

@@ -112,4 +112,9 @@ PYBIND11_MODULE(_qualpal,
   m.def("list_palettes_cpp",
         &list_palettes_cpp,
         "List all available named palettes");
+
+  m.def("get_palette_cpp",
+        &get_palette_cpp,
+        py::arg("palette_name"),
+        "Get a specific named palette");
 }
