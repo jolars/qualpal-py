@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Getting Started with Qualpal
+# Getting Started
 
 This tutorial demonstrates the main features of qualpal for generating and working with color palettes.
 
@@ -115,8 +115,13 @@ which returns a dictionary of palette names and their descriptions.
 from qualpal import list_palettes, Palette
 
 available_palettes = list_palettes()
-pal = available_palettes["Rembrandt"] # Example built-in palette
-Palette(pal)
+available_palettes["Rembrandt"] # Example built-in palette
+```
+
+```{code-cell} ipython3
+from qualpal import get_palette
+
+get_palette("Rembrandt:Staalmeesters")
 ```
 
 As you can see from above, built-in palettes are
@@ -147,7 +152,12 @@ for i, color in enumerate(pal):
 print(f"\nPalette size: {len(pal)}")
 ```
 
+Indexing a single color returns a `Color` object, which supports various color operations.
+
 ### Palette Analysis
+
+Qualpal also provides methods to analyze palettes, such as measuring
+the perceptual distances between colors.
 
 ```{code-cell} ipython3
 # Minimum pairwise distance
@@ -162,6 +172,8 @@ print(f"Distances: {[f'{d:.2f}' for d in min_dists]}")
 matrix = pal.distance_matrix()
 print(f"\nDistance matrix shape: {len(matrix)}x{len(matrix[0])}")
 print(f"Distance from color 0 to color 1: {matrix[0][1]:.2f}")
+
+matrix
 ```
 
 ## Exporting Palettes
@@ -188,94 +200,42 @@ config = {
 print(f"\nConfig: {config}")
 ```
 
-## Visualization
-
-As we have shown earlier, palettes can be visualized using matplotlib:
-
-```{code-cell} ipython3
-# Display color swatches
-fig = pal.show()
-```
-
-If you like, you can add labels of the hex codes to the swatches:
-
-```{code-cell} ipython3
-fig = pal.show(labels=True)
-```
-
-You can also provide custom labels:
-
-```{code-cell} ipython3
-# With custom labels
-fig = pal.show(labels=["Primary", "Success", "Info", "Warning"])
-```
-
-THe figures that are returned are matplotlib Figure objects and can be further customized or saved:
-
-```python
-fig.savefig("palette.png", bbox_inches="tight")
-```
-
-## Color Vision Deficiency (CVD) Simulation
-
-Simulate how colors appear to people with color vision deficiency:
-
-```{code-cell} ipython3
-original = Color("#ff0000")
-
-# Simulate different types of CVD
-protan = original.simulate_cvd("protan", severity=1.0)
-deutan = original.simulate_cvd("deutan", severity=1.0)
-tritan = original.simulate_cvd("tritan", severity=1.0)
-
-print(f"Original:     {original.hex()}")
-print(f"Protanopia:   {protan.hex()}")
-print(f"Deuteranopia: {deutan.hex()}")
-print(f"Tritanopia:   {tritan.hex()}")
-```
-
 ### CVD-Aware Palette Generation
 
-Generate palettes that remain distinguishable with CVD:
+You can generate palettes that are optimized for viewers with color vision
+deficiencies (CVD). To do this, provide a `cvd` dictionary specifying the type
+and severity of CVD to account for.
+
+Here, we generate a palette that is safe for deuteranomaly (the most common
+form of CVD):
 
 ```{code-cell} ipython3
-# Generate palette considering deuteranomaly
 qp_cvd = Qualpal(
     cvd={'deutan': 0.7}  # 70% severity deuteranomaly
 )
 
-cvd_palette = qp_cvd.generate(5)
-print("CVD-aware palette:", cvd_palette.hex())
-
-# Verify minimum distance
-print(f"Min distance: {cvd_palette.min_distance():.2f}")
-
-# Visualize the CVD-aware palette
-fig = cvd_palette.show(labels=True)
+qp_cvd.generate(5)
 ```
 
-## Advanced: Custom Background Colors
+## Account for Background Color
 
-Generate palettes optimized for specific backgrounds:
+When generating palettes, you can also specify a background color to ensure
+good contrast. This is especially useful for generating palettes for dark
+backgrounds. To do so, provide a `background` hex color string when creating
+the `Qualpal` instance.
+
+Here, we create a palette optimized for dark backgrounds:
 
 ```{code-cell} ipython3
-# Dark background
 qp_dark = Qualpal(background="#1a1a1a")
-dark_palette = qp_dark.generate(4)
-
-print("Palette for dark background:")
-print(dark_palette.hex())
-fig = dark_palette.show(labels=True)
+qp_dark.generate(4)
 ```
 
-```{code-cell} ipython3
-# Light background
-qp_light = Qualpal(background="#ffffff")
-light_palette = qp_light.generate(4)
+Compare this to a palette optimized for light backgrounds:
 
-print("Palette for light background:")
-print(light_palette.hex())
-fig = light_palette.show(labels=True)
+```{code-cell} ipython3
+qp_light = Qualpal(background="#ffffff")
+qp_light.generate(4)
 ```
 
 ## Complete Example: Accessible Data Visualization Palette
@@ -309,49 +269,36 @@ for i, color in enumerate(accessible_palette, 1):
 print(f"\nMinimum distance: {accessible_palette.min_distance():.2f}")
 print("(Higher is better - minimum recommended: 30)")
 
-# Visualize the final accessible palette
-fig = accessible_palette.show(labels=True)
+accessible_palette
 ```
 
-## Basic Color Operations
+## Visualization
 
-Let's start by working with individual colors:
+If you have matplotlib installed, you can visualize palettes using the `show` method,
+which returns a figure with color swatches.
 
 ```{code-cell} ipython3
-from qualpal import Color
-
-# Create a color from hex
-red = Color("#ff0000")
-print(f"Hex: {red.hex()}")
-print(f"RGB: {red.rgb()}")
-print(f"RGB (0-255): {red.rgb255()}")
-print(f"HSL: {red.hsl()}")
+# Display color swatches
+fig = pal.show()
 ```
 
-### Creating Colors from Different Formats
+If you like, you can add labels of the hex codes to the swatches:
 
 ```{code-cell} ipython3
-# From RGB (0-1 range)
-green = Color.from_rgb(0.0, 1.0, 0.0)
-
-# From HSL
-blue_hsl = Color.from_hsl(240, 1.0, 0.5)
-
-# Display the colors
-print(f"Green: {green.hex()}")
-print(f"Blue:  {blue_hsl.hex()}")
+fig = pal.show(labels=True)
 ```
 
-### Color Distance
-
-Measure perceptual distance between colors using the CIEDE2000 metric:
+You can also provide custom labels:
 
 ```{code-cell} ipython3
-color1 = Color("#ff0000")
-color2 = Color("#ff6600")
+# With custom labels
+fig = pal.show(labels=["Primary", "Success", "Info", "Warning"])
+```
 
-distance = color1.distance(color2)
-print(f"Distance between {color1.hex()} and {color2.hex()}: {distance:.2f}")
+The figures that are returned are matplotlib Figure objects and can be further customized or saved:
+
+```python
+fig.savefig("palette.png", bbox_inches="tight")
 ```
 
 For more details, see the [API documentation](api.md).

@@ -18,7 +18,8 @@ kernelspec:
 :caption: Contents
 
 Home<self>
-tutorial
+getting_started
+colors
 api
 changelog
 ```
@@ -26,6 +27,9 @@ changelog
 ## Automatically Generate Qualitative Color Palettes
 
 Qualpal automatically generates qualitative color palettes with distinct, perceptually uniform colors.
+It uses sophisticated algorithms based on perceptual color difference metrics
+to ensure that the colors in the palette are easily distinguishable from each
+other.
 
 ## Installation
 
@@ -43,6 +47,8 @@ pip install qualpal[viz]
 
 ## Quick Start
 
+As a quick example, here's how to generate a palette with 6 distinct colors:
+
 ```{code-cell} ipython3
 from qualpal import Qualpal
 
@@ -59,6 +65,12 @@ palette
 - Color vision deficiency simulation for accessible palette design
 - Multiple input formats: RGB values, hex strings, HSL ranges, built-in palettes
 - Fast algorithms for large color spaces
+
+## Web App
+
+If you simply want to generate color palettes without coding or want to see
+what Qualpal has to offer at a glance, check out the [Qualpal web
+app](https://qualpal.cc).
 
 ## Citation
 
