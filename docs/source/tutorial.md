@@ -11,117 +11,122 @@ kernelspec:
   name: python3
 ---
 
-# Tutorial: Getting Started with Qualpal
+# Getting Started with Qualpal
 
 This tutorial demonstrates the main features of qualpal for generating and working with color palettes.
 
 ## Installation
 
+Qualpal is on PyPi and can be installed via pip:
+
 ```bash
-pip install qualpal        # Core functionality
-pip install qualpal[viz]   # With matplotlib visualization
+pip install qualpal
 ```
 
-## Basic Color Operations
+If you want visualization support (requires matplotlib), install with:
 
-Let's start by working with individual colors:
-
-```{code-cell} ipython3
-from qualpal import Color
-
-# Create a color from hex
-red = Color("#ff0000")
-print(f"Hex: {red.hex()}")
-print(f"RGB: {red.rgb()}")
-print(f"RGB (0-255): {red.rgb255()}")
-print(f"HSL: {red.hsl()}")
-```
-
-### Creating Colors from Different Formats
-
-```{code-cell} ipython3
-# From RGB (0-1 range)
-green = Color.from_rgb(0.0, 1.0, 0.0)
-
-# From HSL
-blue_hsl = Color.from_hsl(240, 1.0, 0.5)
-
-# Display the colors
-print(f"Green: {green.hex()}")
-print(f"Blue:  {blue_hsl.hex()}")
-```
-
-### Color Distance
-
-Measure perceptual distance between colors using the CIEDE2000 metric:
-
-```{code-cell} ipython3
-color1 = Color("#ff0000")
-color2 = Color("#ff6600")
-
-distance = color1.distance(color2)
-print(f"Distance between {color1.hex()} and {color2.hex()}: {distance:.2f}")
+```bash
+pip install qualpal[viz]
 ```
 
 ## Generating Palettes
 
-Now let's generate color palettes with distinct colors:
+The main API entry point is the `Qualpal` class, which generates color palettes
+through the `generate` method.
 
 ```{code-cell} ipython3
 from qualpal import Qualpal
 
-# Create palette generator
 qp = Qualpal()
 
-# Generate 6 distinct colors
 palette = qp.generate(6)
+```
 
-# Display as hex codes
-print("Generated palette:")
-for i, color in enumerate(palette, 1):
-    print(f"  {i}. {color.hex()}")
+Here, we have generated a palette with 6 distinct colors. The palette class
+supports a rich HTML representation in Jupyter notebooks, so printing it will
+show the colors visually:
 
-# Visualize the palette
-fig = palette.show(labels=True)
+```{code-cell} ipython3
+palette
 ```
 
 ### Customizing the Color Space
 
-Restrict colors to specific ranges:
+By default, qualpal generates colors across the full HSL color space, but you
+can restrict the hue, saturation, and lightness ranges to create specific
+styles of palettes.
 
 ```{code-cell} ipython3
-# Pastel colors (low saturation, high lightness)
 qp_pastel = Qualpal(
     colorspace={
-        'h': (0, 360),      # Full hue range
-        's': (0.3, 0.6),    # Low saturation
-        'l': (0.7, 0.9)     # High lightness
+        'h': (0, 360),   # Full hue range
+        's': (0.3, 0.6), # Low saturation
+        'l': (0.7, 0.9)  # High lightness
     }
 )
 
-pastel_palette = qp_pastel.generate(5)
-print("Pastel palette:", pastel_palette.hex())
-fig = pastel_palette.show(labels=True)
+qp_pastel.generate(5)
 ```
 
+Or create a palette with only warm colors:
+
 ```{code-cell} ipython3
-# Warm colors only
 qp_warm = Qualpal(
     colorspace={
-        'h': (-30, 90),     # Red to yellow
+        'h': (-20, 60),
         's': (0.5, 1.0),
         'l': (0.4, 0.7)
     }
 )
 
-warm_palette = qp_warm.generate(5)
-print("Warm palette:", warm_palette.hex())
-fig = warm_palette.show(labels=True)
+qp_warm.generate(5)
 ```
+
+As you can see, negative hue values wrap around, so -20 corresponds to 340 degrees.
+
+### Alternative Inputs
+
+Qualpal supports two other modes of input: a list of candidate colors
+to choose from or one of the built-in color palettes that are available.
+To use candidate colors, provide a list of hex color strings:
+
+```{code-cell} ipython3
+candidates = ["#e6194b", "#3cb44b", "#ffe119", "#4363d8",
+              "#f58231", "#911eb4", "#46f0f0", "#f032e6",
+              "#bcf60c", "#fabebe", "#008080", "#e6beff",
+              "#9a6324", "#fffac8", "#800000", "#aaffc3",
+              "#808000", "#ffd8b1", "#000075", "#808080"]
+
+qp_candidates = Qualpal(colors=candidates)
+qp_candidates.generate(3)
+```
+
+You can also use built-in palettes by name:
+
+```{code-cell} ipython3
+qp_builtin = Qualpal(palette="Tableau:10")
+qp_builtin.generate(5)
+```
+
+For a list of available built-in palettes, you can call `list_palettes()`,
+which returns a dictionary of palette names and their descriptions.
+
+```{code-cell} ipython3
+from qualpal import list_palettes, Palette
+
+available_palettes = list_palettes()
+pal = available_palettes["Rembrandt"] # Example built-in palette
+Palette(pal)
+```
+
+As you can see from above, built-in palettes are
+specified using the format `Domain:Name`, so that `Rembrandt:Staalmeesters` refers to the
+"Staalmeesters" palette from the "Rembrandt" collection.
 
 ## Working with Palettes
 
-Palettes are collections of colors with useful methods:
+Palettes are represented by the `Palette` class, which supports indexing,
+iteration, and length retrieval.
 
 ```{code-cell} ipython3
 from qualpal import Palette
@@ -161,18 +166,15 @@ print(f"Distance from color 0 to color 1: {matrix[0][1]:.2f}")
 
 ## Exporting Palettes
 
-Export palettes in various formats:
+Qualpal supports exporting palettes in various formats. For example, CSS variables:
 
 ```{code-cell} ipython3
-# CSS custom properties
-css = pal.to_css(prefix="brand")
-print("CSS variables:")
-for decl in css:
-    print(f"  {decl}")
+pal.to_css(prefix="brand")
 ```
 
+There is also support for JSON export:
+
 ```{code-cell} ipython3
-# JSON format
 import json
 json_str = pal.to_json()
 print(f"JSON: {json_str}")
@@ -188,29 +190,30 @@ print(f"\nConfig: {config}")
 
 ## Visualization
 
-Visualize palettes with matplotlib:
+As we have shown earlier, palettes can be visualized using matplotlib:
 
 ```{code-cell} ipython3
 # Display color swatches
 fig = pal.show()
 ```
 
+If you like, you can add labels of the hex codes to the swatches:
+
 ```{code-cell} ipython3
-# With hex labels
 fig = pal.show(labels=True)
 ```
 
-```{code-cell} ipython3
-# With hex labels
-pal.show(labels=True)
-```
+You can also provide custom labels:
 
 ```{code-cell} ipython3
 # With custom labels
 fig = pal.show(labels=["Primary", "Success", "Info", "Warning"])
+```
 
-# You can also save to file
-# fig.savefig("palette.png", dpi=150, bbox_inches='tight')
+THe figures that are returned are matplotlib Figure objects and can be further customized or saved:
+
+```python
+fig.savefig("palette.png", bbox_inches="tight")
 ```
 
 ## Color Vision Deficiency (CVD) Simulation
@@ -310,19 +313,45 @@ print("(Higher is better - minimum recommended: 30)")
 fig = accessible_palette.show(labels=True)
 ```
 
-## Summary
+## Basic Color Operations
 
-Key features demonstrated:
+Let's start by working with individual colors:
 
-- ✅ Create and convert colors between formats (hex, RGB, HSL, LAB, LCH)
-- ✅ Measure perceptual color distances
-- ✅ Generate palettes with distinct colors
-- ✅ Customize color space constraints
-- ✅ Analyze palette quality
-- ✅ Export in various formats (CSS, JSON)
-- ✅ Visualize with matplotlib
-- ✅ Simulate color vision deficiency
-- ✅ Generate CVD-aware palettes
-- ✅ Optimize for specific backgrounds
+```{code-cell} ipython3
+from qualpal import Color
+
+# Create a color from hex
+red = Color("#ff0000")
+print(f"Hex: {red.hex()}")
+print(f"RGB: {red.rgb()}")
+print(f"RGB (0-255): {red.rgb255()}")
+print(f"HSL: {red.hsl()}")
+```
+
+### Creating Colors from Different Formats
+
+```{code-cell} ipython3
+# From RGB (0-1 range)
+green = Color.from_rgb(0.0, 1.0, 0.0)
+
+# From HSL
+blue_hsl = Color.from_hsl(240, 1.0, 0.5)
+
+# Display the colors
+print(f"Green: {green.hex()}")
+print(f"Blue:  {blue_hsl.hex()}")
+```
+
+### Color Distance
+
+Measure perceptual distance between colors using the CIEDE2000 metric:
+
+```{code-cell} ipython3
+color1 = Color("#ff0000")
+color2 = Color("#ff6600")
+
+distance = color1.distance(color2)
+print(f"Distance between {color1.hex()} and {color2.hex()}: {distance:.2f}")
+```
 
 For more details, see the [API documentation](api.md).
