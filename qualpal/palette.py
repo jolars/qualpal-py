@@ -236,13 +236,9 @@ class Palette:
                 )
             )
 
-        # Set axis properties
-        ax.set_xlim(0, n_colors)
-        ax.set_ylim(0, 1)
         ax.set_aspect("equal")
         ax.axis("off")
 
-        # Add labels if requested
         if labels is True:
             # Use hex codes as labels
             for i, color in enumerate(self._colors):
@@ -255,6 +251,9 @@ class Palette:
                     fontsize=9,
                     family="monospace",
                 )
+            # Adjust limits to include labels
+            ax.set_xlim(-0.01, n_colors + 0.01)
+            ax.set_ylim(-0.01, 1.01)
         elif isinstance(labels, list):
             # Use custom labels
             for i, label in enumerate(labels):
@@ -266,6 +265,13 @@ class Palette:
                     va="top",
                     fontsize=10,
                 )
+            # Adjust limits to include labels
+            ax.set_xlim(-0.01, n_colors + 0.01)
+            ax.set_ylim(-0.01, 1.01)
+        else:
+            # No labels - keep tight limits
+            ax.set_xlim(-0.01, n_colors + 0.01)
+            ax.set_ylim(-0.01, 1.01)
 
         plt.tight_layout()
         return fig
