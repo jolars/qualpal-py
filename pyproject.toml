@@ -52,6 +52,7 @@ docs = [
     "sphinx",
     "furo",
     "sphinx-copybutton",
+    "sphinx-togglebutton",
     "myst-parser",
     "myst-nb",
     "sphinx-autobuild",
