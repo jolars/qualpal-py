@@ -103,8 +103,10 @@ So if you want to contribute to the core algorithms, please do so there.
 
 Qualpal is licensed under the [MIT license](LICENSE)
 
-## References
+## Citation
 
-Larsson, J. (2024). qualpal: Automatic Generation of Qualitative Color Palettes.
-_Journal of Open Source Software_, 9(102), 8936.
-<https://doi.org/10.21105/joss.08936>
+If you use Qualpal in your research, please cite the following paper:
+
+> Larsson, J. (2025). Qualpal: Qualitative Color Palettes for Everyone.
+> _Journal of Open Source Software_, 10(114), 8936.
+> [https://doi.org/10.21105/joss.08936](https://doi.org/10.21105/joss.08936)
