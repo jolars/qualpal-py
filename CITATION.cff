@@ -5,7 +5,7 @@ authors:
     given-names: Johan
     orcid: "https://orcid.org/0000-0002-4029-5945"
 date-released: 2025-08-12
-version: "0.1.0"
+version: "1.0.0"
 url: "https://github.com/jolars/qualpal-py"
 license: MIT
 location: Lund, Sweden
