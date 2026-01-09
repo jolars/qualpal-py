@@ -10,9 +10,9 @@
 #include <qualpal/metrics.h>
 
 double
-color_difference_cpp(const std::string& hex1,
-                     const std::string& hex2,
-                     const std::string& metric)
+color_difference(const std::string& hex1,
+                 const std::string& hex2,
+                 const std::string& metric)
 {
   // Convert hex strings to RGB
   qualpal::colors::RGB color1(hex1);
@@ -32,8 +32,8 @@ color_difference_cpp(const std::string& hex1,
 }
 
 std::vector<double>
-color_distance_matrix_cpp(const std::vector<std::string>& hex_colors,
-                          const std::string& metric)
+color_distance_matrix(const std::vector<std::string>& hex_colors,
+                      const std::string& metric)
 {
   // Convert hex strings to RGB
   std::vector<qualpal::colors::RGB> colors;
@@ -45,7 +45,8 @@ color_distance_matrix_cpp(const std::vector<std::string>& hex_colors,
   // Compute distance matrix based on metric
   qualpal::Matrix<double> matrix;
   if (metric == "ciede2000") {
-    matrix = qualpal::colorDifferenceMatrix(colors, qualpal::metrics::CIEDE2000{});
+    matrix =
+      qualpal::colorDifferenceMatrix(colors, qualpal::metrics::CIEDE2000{});
   } else if (metric == "din99d") {
     matrix = qualpal::colorDifferenceMatrix(colors, qualpal::metrics::DIN99d{});
   } else if (metric == "cie76") {

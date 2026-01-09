@@ -28,12 +28,11 @@ rgb_palette_to_hex(const std::vector<qualpal::colors::RGB>& pal);
  * @param max_memory Optional memory limit in GB
  */
 void
-apply_optional_config(
-  qualpal::Qualpal& qp,
-  const std::optional<std::map<std::string, double>>& cvd,
-  const std::optional<std::string>& background,
-  const std::optional<std::string>& metric,
-  const std::optional<double>& max_memory);
+apply_optional_config(qualpal::Qualpal& qp,
+                      const std::optional<std::map<std::string, double>>& cvd,
+                      const std::optional<std::string>& background,
+                      const std::optional<std::string>& metric,
+                      const std::optional<double>& max_memory);
 
 /**
  * @brief Unified palette generation function with full configuration
@@ -50,7 +49,7 @@ apply_optional_config(
  * @return Vector of hex color strings
  */
 std::vector<std::string>
-generate_palette_unified_cpp(
+generate_palette_unified(
   int n,
   const std::optional<std::vector<double>>& h_range,
   const std::optional<std::vector<double>>& c_range,
@@ -71,10 +70,10 @@ generate_palette_unified_cpp(
  * @return Vector of hex color strings
  */
 std::vector<std::string>
-generate_palette_cpp(int n,
-                     const std::vector<double>& h_range,
-                     const std::vector<double>& c_range,
-                     const std::vector<double>& l_range);
+generate_palette(int n,
+                 const std::vector<double>& h_range,
+                 const std::vector<double>& c_range,
+                 const std::vector<double>& l_range);
 
 /**
  * @brief Generate palette using hex colors as input
@@ -83,7 +82,7 @@ generate_palette_cpp(int n,
  * @return Vector of hex color strings (subset of input)
  */
 std::vector<std::string>
-generate_palette_from_colors_cpp(int n, const std::vector<std::string>& colors);
+generate_palette_from_colors(int n, const std::vector<std::string>& colors);
 
 /**
  * @brief Generate palette using named palette as input
@@ -92,19 +91,20 @@ generate_palette_from_colors_cpp(int n, const std::vector<std::string>& colors);
  * @return Vector of hex color strings
  */
 std::vector<std::string>
-generate_palette_from_palette_cpp(int n, const std::string& palette_name);
+generate_palette_from_palette(int n, const std::string& palette_name);
 
 /**
  * @brief List all available named palettes
  * @return Map of package names to lists of palette names
  */
 std::map<std::string, std::vector<std::string>>
-list_palettes_cpp();
+list_palettes();
 
 /**
  * @brief Get a specific named palette
- * @param palette_name Palette name in format "package:name" (e.g., "ColorBrewer:Set2")
+ * @param palette_name Palette name in format "package:name" (e.g.,
+ * "ColorBrewer:Set2")
  * @return Vector of hex color strings in the palette
  */
 std::vector<std::string>
-get_palette_cpp(const std::string& palette_name);
+get_palette(const std::string& palette_name);

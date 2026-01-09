@@ -77,12 +77,13 @@ rgb_to_lch(double r, double g, double b);
  * @param g Green component in range [0, 1]
  * @param b Blue component in range [0, 1]
  * @param cvd_type Type of CVD: "protan", "deutan", or "tritan"
- * @param severity Severity in range [0, 1] where 0=normal, 1=complete deficiency
+ * @param severity Severity in range [0, 1] where 0=normal, 1=complete
+ * deficiency
  * @return Array of [red, green, blue] in range [0, 1] after CVD simulation
  */
 std::array<double, 3>
-simulate_cvd_cpp(double r,
-                 double g,
-                 double b,
-                 const std::string& cvd_type,
-                 double severity);
+simulate_cvd(double r,
+             double g,
+             double b,
+             const std::string& cvd_type,
+             double severity);

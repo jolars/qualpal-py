@@ -19,12 +19,11 @@ rgb_palette_to_hex(const std::vector<qualpal::colors::RGB>& pal)
 }
 
 void
-apply_optional_config(
-  qualpal::Qualpal& qp,
-  const std::optional<std::map<std::string, double>>& cvd,
-  const std::optional<std::string>& background,
-  const std::optional<std::string>& metric,
-  const std::optional<double>& max_memory)
+apply_optional_config(qualpal::Qualpal& qp,
+                      const std::optional<std::map<std::string, double>>& cvd,
+                      const std::optional<std::string>& background,
+                      const std::optional<std::string>& metric,
+                      const std::optional<double>& max_memory)
 {
   if (cvd.has_value()) {
     qp.setCvd(cvd.value());
@@ -49,7 +48,7 @@ apply_optional_config(
 }
 
 std::vector<std::string>
-generate_palette_unified_cpp(
+generate_palette_unified(
   int n,
   const std::optional<std::vector<double>>& h_range,
   const std::optional<std::vector<double>>& c_range,
@@ -82,32 +81,51 @@ generate_palette_unified_cpp(
 }
 
 std::vector<std::string>
-generate_palette_cpp(int n,
-                     const std::vector<double>& h_range,
-                     const std::vector<double>& c_range,
-                     const std::vector<double>& l_range)
+generate_palette(int n,
+                 const std::vector<double>& h_range,
+                 const std::vector<double>& c_range,
+                 const std::vector<double>& l_range)
 {
-  return generate_palette_unified_cpp(
-    n, h_range, c_range, l_range, std::nullopt, std::nullopt, std::nullopt,
-    std::nullopt, std::nullopt, std::nullopt);
+  return generate_palette_unified(n,
+                                  h_range,
+                                  c_range,
+                                  l_range,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt);
 }
 
 std::vector<std::string>
-generate_palette_from_colors_cpp(int n, const std::vector<std::string>& colors)
+generate_palette_from_colors(int n, const std::vector<std::string>& colors)
 {
-  return generate_palette_unified_cpp(n, std::nullopt, std::nullopt,
-                                      std::nullopt, colors, std::nullopt,
-                                      std::nullopt, std::nullopt, std::nullopt,
-                                      std::nullopt);
+  return generate_palette_unified(n,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  colors,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt);
 }
 
 std::vector<std::string>
-generate_palette_from_palette_cpp(int n, const std::string& palette_name)
+generate_palette_from_palette(int n, const std::string& palette_name)
 {
-  return generate_palette_unified_cpp(n, std::nullopt, std::nullopt,
-                                      std::nullopt, std::nullopt, palette_name,
-                                      std::nullopt, std::nullopt, std::nullopt,
-                                      std::nullopt);
+  return generate_palette_unified(n,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  palette_name,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt,
+                                  std::nullopt);
 }
 
 // Forward declare from qualpal library
@@ -119,13 +137,13 @@ getPalette(const std::string& palette);
 }
 
 std::map<std::string, std::vector<std::string>>
-list_palettes_cpp()
+list_palettes()
 {
   return qualpal::listAvailablePalettes();
 }
 
 std::vector<std::string>
-get_palette_cpp(const std::string& palette_name)
+get_palette(const std::string& palette_name)
 {
   return qualpal::getPalette(palette_name);
 }

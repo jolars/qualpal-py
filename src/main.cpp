@@ -14,8 +14,8 @@ PYBIND11_MODULE(_qualpal,
   m.doc() = "qualpal C++ core algorithms";
 
   // Unified generation function with all options
-  m.def("generate_palette_unified_cpp",
-        &generate_palette_unified_cpp,
+  m.def("generate_palette_unified",
+        &generate_palette_unified,
         py::arg("n"),
         py::arg("h_range") = py::none(),
         py::arg("c_range") = py::none(),
@@ -29,22 +29,22 @@ PYBIND11_MODULE(_qualpal,
         "Generate palette with full configuration options");
 
   // Convenience wrappers (backwards compatible)
-  m.def("generate_palette_cpp",
-        &generate_palette_cpp,
+  m.def("generate_palette",
+        &generate_palette,
         py::arg("n"),
         py::arg("h_range"),
         py::arg("c_range"),
         py::arg("l_range"),
         "Generate palette using colorspace input");
 
-  m.def("generate_palette_from_colors_cpp",
-        &generate_palette_from_colors_cpp,
+  m.def("generate_palette_from_colors",
+        &generate_palette_from_colors,
         py::arg("n"),
         py::arg("colors"),
         "Generate palette using hex colors as input");
 
-  m.def("generate_palette_from_palette_cpp",
-        &generate_palette_from_palette_cpp,
+  m.def("generate_palette_from_palette",
+        &generate_palette_from_palette,
         py::arg("n"),
         py::arg("palette_name"),
         "Generate palette using named palette as input");
@@ -85,8 +85,8 @@ PYBIND11_MODULE(_qualpal,
         py::arg("b"),
         "Convert RGB to LCH");
 
-  m.def("simulate_cvd_cpp",
-        &simulate_cvd_cpp,
+  m.def("simulate_cvd",
+        &simulate_cvd,
         py::arg("r"),
         py::arg("g"),
         py::arg("b"),
@@ -95,25 +95,23 @@ PYBIND11_MODULE(_qualpal,
         "Simulate color vision deficiency on RGB color");
 
   // Color distance calculations
-  m.def("color_difference_cpp",
-        &color_difference_cpp,
+  m.def("color_difference",
+        &color_difference,
         py::arg("hex1"),
         py::arg("hex2"),
         py::arg("metric"),
         "Calculate color difference between two colors");
 
-  m.def("color_distance_matrix_cpp",
-        &color_distance_matrix_cpp,
+  m.def("color_distance_matrix",
+        &color_distance_matrix,
         py::arg("hex_colors"),
         py::arg("metric"),
         "Calculate distance matrix for a list of colors");
 
-  m.def("list_palettes_cpp",
-        &list_palettes_cpp,
-        "List all available named palettes");
+  m.def("list_palettes", &list_palettes, "List all available named palettes");
 
-  m.def("get_palette_cpp",
-        &get_palette_cpp,
+  m.def("get_palette",
+        &get_palette,
         py::arg("palette_name"),
         "Get a specific named palette");
 }

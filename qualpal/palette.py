@@ -307,7 +307,7 @@ class Palette:
         hex_colors = [c.hex() for c in self._colors]
 
         # Call C++ function (returns flat array)
-        flat_matrix = _qualpal.color_distance_matrix_cpp(hex_colors, metric)
+        flat_matrix = _qualpal.color_distance_matrix(hex_colors, metric)
 
         # Convert to 2D list
         n = len(self._colors)

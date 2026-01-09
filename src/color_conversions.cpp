@@ -52,13 +52,14 @@ rgb_to_lch(double r, double g, double b)
 }
 
 std::array<double, 3>
-simulate_cvd_cpp(double r,
-                 double g,
-                 double b,
-                 const std::string& cvd_type,
-                 double severity)
+simulate_cvd(double r,
+             double g,
+             double b,
+             const std::string& cvd_type,
+             double severity)
 {
   qualpal::colors::RGB rgb(r, g, b);
-  qualpal::colors::RGB simulated = qualpal::simulateCvd(rgb, cvd_type, severity);
+  qualpal::colors::RGB simulated =
+    qualpal::simulateCvd(rgb, cvd_type, severity);
   return { simulated.r(), simulated.g(), simulated.b() };
 }

@@ -17,9 +17,9 @@
  * @return Perceptual color difference as a double
  */
 double
-color_difference_cpp(const std::string& hex1,
-                     const std::string& hex2,
-                     const std::string& metric);
+color_difference(const std::string& hex1,
+                 const std::string& hex2,
+                 const std::string& metric);
 
 /**
  * @brief Calculate distance matrix for a list of colors
@@ -28,5 +28,5 @@ color_difference_cpp(const std::string& hex1,
  * @return Flattened distance matrix (row-major order, symmetric)
  */
 std::vector<double>
-color_distance_matrix_cpp(const std::vector<std::string>& hex_colors,
-                          const std::string& metric);
+color_distance_matrix(const std::vector<std::string>& hex_colors,
+                      const std::string& metric);

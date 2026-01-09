@@ -31,7 +31,7 @@ def list_palettes() -> dict[str, list[str]]:
     >>> qp = Qualpal(palette='ColorBrewer:Set2')
     >>> pal = qp.generate(5)
     """
-    return _qualpal.list_palettes_cpp()
+    return _qualpal.list_palettes()
 
 
 def get_palette(name: str) -> Palette:
@@ -71,5 +71,5 @@ def get_palette(name: str) -> Palette:
         msg = f"Palette name must be in format 'package:palette', got: {name}"
         raise ValueError(msg)
 
-    hex_colors = _qualpal.get_palette_cpp(name)
+    hex_colors = _qualpal.get_palette(name)
     return Palette(hex_colors)

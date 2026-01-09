@@ -349,12 +349,12 @@ class Qualpal:
         try:
             if self._colors is not None:
                 # Colors mode: select from provided colors
-                hex_colors = _qualpal.generate_palette_from_colors_cpp(
+                hex_colors = _qualpal.generate_palette_from_colors(
                     n=n, colors=list(self._colors)
                 )
             elif self._palette is not None:
                 # Palette mode: load named palette and select
-                hex_colors = _qualpal.generate_palette_from_palette_cpp(
+                hex_colors = _qualpal.generate_palette_from_palette(
                     n=n, palette_name=self._palette
                 )
             elif self._colorspace is not None:
@@ -372,7 +372,7 @@ class Qualpal:
                     msg = f"Unsupported color space: {self._space}"
                     raise RuntimeError(msg)
 
-                hex_colors = _qualpal.generate_palette_cpp(
+                hex_colors = _qualpal.generate_palette(
                     n=n, h_range=h_range, c_range=c_range, l_range=l_range
                 )
             else:

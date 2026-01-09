@@ -214,7 +214,7 @@ class Color:
             other = Color(other)
 
         # Call C++ function
-        return _qualpal.color_difference_cpp(self._hex, other._hex, metric)
+        return _qualpal.color_difference(self._hex, other._hex, metric)
 
     def simulate_cvd(self, cvd_type: str, severity: float = 1.0) -> Color:
         """Simulate color vision deficiency on this color.
@@ -262,7 +262,7 @@ class Color:
             raise ValueError(msg)
 
         # Call C++ function
-        r_sim, g_sim, b_sim = _qualpal.simulate_cvd_cpp(
+        r_sim, g_sim, b_sim = _qualpal.simulate_cvd(
             self._r, self._g, self._b, cvd_type, severity
         )
 
