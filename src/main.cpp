@@ -1,9 +1,8 @@
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-
 #include "color_conversions.h"
 #include "color_distance.h"
 #include "palette_generation.h"
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 namespace py = pybind11;
 
