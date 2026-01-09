@@ -80,6 +80,9 @@ palette = qp.generate(6)
 print("Generated palette:")
 for i, color in enumerate(palette, 1):
     print(f"  {i}. {color.hex()}")
+
+# Visualize the palette
+fig = palette.show(labels=True)
 ```
 
 ### Customizing the Color Space
@@ -98,6 +101,7 @@ qp_pastel = Qualpal(
 
 pastel_palette = qp_pastel.generate(5)
 print("Pastel palette:", pastel_palette.hex())
+fig = pastel_palette.show(labels=True)
 ```
 
 ```{code-cell} ipython3
@@ -112,6 +116,7 @@ qp_warm = Qualpal(
 
 warm_palette = qp_warm.generate(5)
 print("Warm palette:", warm_palette.hex())
+fig = warm_palette.show(labels=True)
 ```
 
 ## Working with Palettes
@@ -186,19 +191,26 @@ print(f"\nConfig: {config}")
 Visualize palettes with matplotlib:
 
 ```{code-cell} ipython3
-:tags: [skip-execution]
-
 # Display color swatches
 fig = pal.show()
+```
 
+```{code-cell} ipython3
 # With hex labels
 fig = pal.show(labels=True)
+```
 
+```{code-cell} ipython3
+# With hex labels
+pal.show(labels=True)
+```
+
+```{code-cell} ipython3
 # With custom labels
 fig = pal.show(labels=["Primary", "Success", "Info", "Warning"])
 
-# Save to file
-fig.savefig("palette.png", dpi=150, bbox_inches='tight')
+# You can also save to file
+# fig.savefig("palette.png", dpi=150, bbox_inches='tight')
 ```
 
 ## Color Vision Deficiency (CVD) Simulation
@@ -234,6 +246,9 @@ print("CVD-aware palette:", cvd_palette.hex())
 
 # Verify minimum distance
 print(f"Min distance: {cvd_palette.min_distance():.2f}")
+
+# Visualize the CVD-aware palette
+fig = cvd_palette.show(labels=True)
 ```
 
 ## Advanced: Custom Background Colors
@@ -247,6 +262,7 @@ dark_palette = qp_dark.generate(4)
 
 print("Palette for dark background:")
 print(dark_palette.hex())
+fig = dark_palette.show(labels=True)
 ```
 
 ```{code-cell} ipython3
@@ -256,6 +272,7 @@ light_palette = qp_light.generate(4)
 
 print("Palette for light background:")
 print(light_palette.hex())
+fig = light_palette.show(labels=True)
 ```
 
 ## Complete Example: Accessible Data Visualization Palette
@@ -288,6 +305,9 @@ for i, color in enumerate(accessible_palette, 1):
 
 print(f"\nMinimum distance: {accessible_palette.min_distance():.2f}")
 print("(Higher is better - minimum recommended: 30)")
+
+# Visualize the final accessible palette
+fig = accessible_palette.show(labels=True)
 ```
 
 ## Summary

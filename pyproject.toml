@@ -47,7 +47,15 @@ viz = ["matplotlib>=3.5"]
 [dependency-groups]
 viz = ["matplotlib>=3.5"]
 test = ["pytest", "sphinx"]
-docs = ["sphinx", "furo", "sphinx-copybutton", "myst-parser", "myst-nb"]
+docs = [
+    { include-group = "viz" },
+    "sphinx",
+    "furo",
+    "sphinx-copybutton",
+    "myst-parser",
+    "myst-nb",
+    "sphinx-autobuild",
+]
 dev = [
     { include-group = "test" },
     { include-group = "docs" },
