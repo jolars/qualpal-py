@@ -58,13 +58,7 @@ palette.show(labels=True)
 
 ```python
 # Pastel colors
-qp = Qualpal(
-    colorspace={
-        'h': (0, 360),
-        's': (0.3, 0.6),
-        'l': (0.7, 0.9)
-    }
-)
+qp = Qualpal(colorspace={"h": (0, 360), "s": (0.3, 0.6), "l": (0.7, 0.9)})
 pastels = qp.generate(5)
 ```
 
@@ -72,7 +66,7 @@ pastels = qp.generate(5)
 
 ```python
 # Generate palette safe for deuteranomaly
-qp = Qualpal(cvd={'deutan': 0.7})
+qp = Qualpal(cvd={"deutan": 0.7})
 accessible = qp.generate(6)
 ```
 
@@ -83,9 +77,9 @@ from qualpal import Color
 
 # Create and convert colors
 color = Color("#ff0000")
-print(color.rgb())   # (1.0, 0.0, 0.0)
-print(color.hsl())   # (0.0, 1.0, 0.5)
-print(color.lab())   # (53.24, 80.09, 67.20)
+print(color.rgb())  # (1.0, 0.0, 0.0)
+print(color.hsl())  # (0.0, 1.0, 0.5)
+print(color.lab())  # (53.24, 80.09, 67.20)
 
 # Measure perceptual distance
 red = Color("#ff0000")
@@ -111,6 +105,6 @@ Qualpal is licensed under the [MIT license](LICENSE)
 
 ## References
 
-Larsson, J. (2024). qualpal: Automatic Generation of Qualitative Color Palettes. 
-*Journal of Open Source Software*, 9(102), 8936. 
+Larsson, J. (2024). qualpal: Automatic Generation of Qualitative Color Palettes.
+_Journal of Open Source Software_, 9(102), 8936.
 <https://doi.org/10.21105/joss.08936>
