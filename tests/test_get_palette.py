@@ -2,6 +2,7 @@
 
 Tests the get_palette functionality to retrieve named palettes.
 """
+
 from __future__ import annotations
 
 import pytest
