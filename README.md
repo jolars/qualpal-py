@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/jolars/qualpal-py/actions/workflows/test.yml/badge.svg)](https://github.com/jolars/qualpal-py/actions/workflows/test.yml)
 [![codecov](https://codecov.io/github/jolars/qualpal-py/graph/badge.svg?token=VBIeMY0zJt)](https://codecov.io/github/jolars/qualpal-py)
+[![PyPI version](https://badge.fury.io/py/qualpal-py.svg)](https://badge.fury.io/py/qualpal-py)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.08936/status.svg)](https://doi.org/10.21105/joss.08936)
 [![App](https://img.shields.io/badge/🌐%20%20App-qualpal.cc-blue)](https://qualpal.cc)
 
