@@ -9,4 +9,4 @@ from .utils import get_palette, list_palettes
 
 __all__ = ["Color", "Palette", "Qualpal", "get_palette", "list_palettes"]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

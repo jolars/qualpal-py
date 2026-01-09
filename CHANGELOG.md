@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0](https://github.com/jolars/qualpal-py/compare/v1.0.0...v1.1.0) (2026-01-09)
+
+### Features
+
+* add `get_palette()` ([d06891f](https://github.com/jolars/qualpal-py/commit/d06891f500c9ea22c4f5dc1e736b353749b07347))
+
+### Bug Fixes
+
+* avoid clipping borders of swatches ([fa6a6f8](https://github.com/jolars/qualpal-py/commit/fa6a6f83e77cd500e33792921004ae895153321c))
+
 ## 1.0.0 (2026-01-08)
 
 ### Features
