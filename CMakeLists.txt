@@ -9,6 +9,10 @@ project(
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
+if(MSVC)
+    add_compile_definitions(_USE_MATH_DEFINES)
+endif()
+
 # Force -fPIC for the qualpal library (required for shared libraries)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
