@@ -202,12 +202,13 @@ class Color:
 
         Examples
         --------
+        >>> from qualpal.color import Color
         >>> red = Color('#ff0000')
         >>> green = Color('#00ff00')
         >>> red.distance(green)
-        86.61
+        86.60823745353736
         >>> red.distance('#00ff00', metric='din99d')
-        32.77
+        32.773501311235
         """
         # Convert other to Color if it's a string
         if isinstance(other, str):
