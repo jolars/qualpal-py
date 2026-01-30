@@ -16,7 +16,7 @@ endif()
 # Force -fPIC for the qualpal library (required for shared libraries)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-find_package(qualpal QUIET)
+find_package(qualpal 4.0 QUIET)
 if(NOT qualpal_FOUND)
     include(FetchContent)
     FetchContent_Declare(
