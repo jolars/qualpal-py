@@ -314,6 +314,110 @@ class TestGenerateWithConfiguration:
         result = qp.generate(5)
         assert len(result) == 5
 
+    def test_generate_after_changing_white_point(self):
+        """Test that generate() works after changing white_point."""
+        qp = Qualpal()
+        qp.white_point = "d50"
+
+        result = qp.generate(5)
+        assert len(result) == 5
+
+
+class TestGenerateWithWhitePoint:
+    """Test generate() with different white points."""
+
+    def test_generate_with_d65(self):
+        """Test generate() with D65 white point (default)."""
+        qp = Qualpal(white_point="d65")
+        result = qp.generate(5)
+
+        assert len(result) == 5
+        assert isinstance(result, Palette)
+
+    def test_generate_with_d50(self):
+        """Test generate() with D50 white point."""
+        qp = Qualpal(white_point="d50")
+        result = qp.generate(5)
+
+        assert len(result) == 5
+        assert isinstance(result, Palette)
+
+    def test_generate_with_d55(self):
+        """Test generate() with D55 white point."""
+        qp = Qualpal(white_point="d55")
+        result = qp.generate(5)
+
+        assert len(result) == 5
+        assert isinstance(result, Palette)
+
+    def test_generate_with_illuminant_a(self):
+        """Test generate() with illuminant A white point."""
+        qp = Qualpal(white_point="a")
+        result = qp.generate(5)
+
+        assert len(result) == 5
+        assert isinstance(result, Palette)
+
+    def test_generate_with_illuminant_e(self):
+        """Test generate() with illuminant E white point."""
+        qp = Qualpal(white_point="e")
+        result = qp.generate(5)
+
+        assert len(result) == 5
+        assert isinstance(result, Palette)
+
+    def test_different_white_points_produce_different_results(self):
+        """Test that different white points produce different palettes."""
+        qp_d65 = Qualpal(
+            colorspace={"h": (0, 360), "s": (0.5, 1), "l": (0.5, 0.7)},
+            white_point="d65",
+        )
+        qp_d50 = Qualpal(
+            colorspace={"h": (0, 360), "s": (0.5, 1), "l": (0.5, 0.7)},
+            white_point="d50",
+        )
+
+        palette_d65 = qp_d65.generate(5)
+        palette_d50 = qp_d50.generate(5)
+
+        # Different white points should produce different results
+        hex_d65 = [c.hex() for c in palette_d65]
+        hex_d50 = [c.hex() for c in palette_d50]
+
+        # At least one color should be different
+        assert hex_d65 != hex_d50
+
+    def test_white_point_with_colors_input(self):
+        """Test white_point works with colors input mode."""
+        colors = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"]
+        qp = Qualpal(colors=colors, white_point="d50")
+
+        result = qp.generate(3)
+        assert len(result) == 3
+
+    def test_white_point_with_palette_input(self):
+        """Test white_point works with palette input mode."""
+        qp = Qualpal(palette="ColorBrewer:Set2", white_point="d50")
+
+        result = qp.generate(4)
+        assert len(result) == 4
+
+    def test_white_point_is_deterministic(self):
+        """Test that white_point produces consistent results."""
+        qp = Qualpal(
+            colorspace={"h": (0, 360), "s": (0.5, 1), "l": (0.5, 0.7)},
+            white_point="d50",
+        )
+
+        results = []
+        for _ in range(3):
+            palette = qp.generate(5)
+            hex_colors = tuple(c.hex() for c in palette)
+            results.append(hex_colors)
+
+        # All results should be identical
+        assert len(set(results)) == 1
+
 
 class TestGenerateIntegration:
     """Integration tests for generate()."""

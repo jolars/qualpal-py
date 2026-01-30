@@ -428,6 +428,64 @@ class TestColorspaceSizeProperty:
             qp.colorspace_size = -100
 
 
+class TestWhitePointProperty:
+    """Test white_point property and setter."""
+
+    def test_white_point_default_none(self):
+        """Test white_point default is None."""
+        qp = Qualpal()
+
+        assert qp.white_point is None
+
+    def test_white_point_set_valid(self):
+        """Test setting valid white_point."""
+        qp = Qualpal()
+        qp.white_point = "d50"
+
+        assert qp.white_point == "d50"
+
+    def test_white_point_init_valid(self):
+        """Test setting white_point in __init__."""
+        qp = Qualpal(white_point="d65")
+
+        assert qp.white_point == "d65"
+
+    def test_white_point_case_insensitive(self):
+        """Test white_point is case-insensitive."""
+        qp = Qualpal()
+        qp.white_point = "D50"
+
+        assert qp.white_point == "d50"
+
+    def test_white_point_all_valid_values(self):
+        """Test all valid white_point values."""
+        valid_values = ["d65", "d50", "d55", "a", "e"]
+        for value in valid_values:
+            qp = Qualpal(white_point=value)
+            assert qp.white_point == value.lower()
+
+    def test_white_point_not_string(self):
+        """Test white_point must be a string."""
+        qp = Qualpal()
+
+        with pytest.raises(TypeError, match="white_point must be a string"):
+            qp.white_point = 123  # type: ignore[assignment]
+
+    def test_white_point_invalid(self):
+        """Test setting invalid white_point."""
+        qp = Qualpal()
+
+        with pytest.raises(ValueError, match="white_point must be one of"):
+            qp.white_point = "invalid"
+
+    def test_white_point_set_to_none(self):
+        """Test setting white_point back to None."""
+        qp = Qualpal(white_point="d50")
+        qp.white_point = None
+
+        assert qp.white_point is None
+
+
 class TestComplexScenarios:
     """Test complex initialization scenarios."""
 
@@ -441,6 +499,7 @@ class TestComplexScenarios:
             background="#ffffff",
             max_memory=2.0,
             colorspace_size=5000,
+            white_point="d50",
         )
 
         assert qp._colorspace == {"h": (0, 180), "s": (0.5, 1), "l": (0.3, 0.7)}
@@ -450,6 +509,7 @@ class TestComplexScenarios:
         assert qp.background == "#ffffff"
         assert qp.max_memory == 2.0
         assert qp.colorspace_size == 5000
+        assert qp.white_point == "d50"
 
     def test_modify_all_properties_after_init(self):
         """Test modifying all properties after initialization."""
@@ -460,9 +520,11 @@ class TestComplexScenarios:
         qp.background = "#000000"
         qp.max_memory = 0.5
         qp.colorspace_size = 500
+        qp.white_point = "d55"
 
         assert qp.cvd == {"deutan": 0.8}
         assert qp.metric == "cie76"
         assert qp.background == "#000000"
         assert qp.max_memory == 0.5
         assert qp.colorspace_size == 500
+        assert qp.white_point == "d55"

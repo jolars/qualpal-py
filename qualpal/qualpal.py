@@ -33,6 +33,7 @@ class Qualpal:
         background: str | None = None,
         max_memory: float = 1.0,
         colorspace_size: int = 1000,
+        white_point: str | None = None,
     ) -> None:
         """Initialize Qualpal object.
 
@@ -72,6 +73,10 @@ class Qualpal:
 
         colorspace_size : int
             Number of colors to sample from colorspace (default: 1000).
+
+        white_point : str | None
+            Reference white point for color conversions: 'd65' (default),
+            'd50', 'd55', 'a', or 'e'.
 
         Raises
         ------
@@ -148,6 +153,7 @@ class Qualpal:
         self._background: str | None = None
         self._max_memory: float = 1.0
         self._colorspace_size: int = 1000
+        self._white_point: str | None = None
 
         # Use setters for validation even in __init__
         self.cvd = cvd
@@ -155,6 +161,7 @@ class Qualpal:
         self.background = background
         self.max_memory = max_memory
         self.colorspace_size = colorspace_size
+        self.white_point = white_point
 
     @property
     def cvd(self) -> dict[str, float] | None:
@@ -308,6 +315,39 @@ class Qualpal:
             raise ValueError(msg)
         self._colorspace_size = value
 
+    @property
+    def white_point(self) -> str | None:
+        """Get white point."""
+        return self._white_point
+
+    @white_point.setter
+    def white_point(self, value: str | None) -> None:
+        """Set white point.
+
+        Parameters
+        ----------
+        value : str | None
+            White point identifier: 'd65', 'd50', 'd55', 'a', or 'e'.
+
+        Raises
+        ------
+        TypeError
+            If value is not a string.
+        ValueError
+            If white point is not one of the valid options.
+        """
+        if value is not None:
+            if not isinstance(value, str):
+                msg = "white_point must be a string"
+                raise TypeError(msg)
+            valid = {"d65", "d50", "d55", "a", "e"}
+            value_lower = value.lower()
+            if value_lower not in valid:
+                msg = f"white_point must be one of {valid}"
+                raise ValueError(msg)
+            value = value_lower
+        self._white_point = value
+
     def generate(self, n: int) -> Palette:
         """Generate a color palette with n distinct colors.
 
@@ -349,13 +389,23 @@ class Qualpal:
         try:
             if self._colors is not None:
                 # Colors mode: select from provided colors
-                hex_colors = _qualpal.generate_palette_from_colors(
-                    n=n, colors=list(self._colors)
+                hex_colors = _qualpal.generate_palette_unified(
+                    n=n,
+                    colors=list(self._colors),
+                    background=self._background,
+                    metric=self._metric,
+                    max_memory=self._max_memory,
+                    white_point=self._white_point,
                 )
             elif self._palette is not None:
                 # Palette mode: load named palette and select
-                hex_colors = _qualpal.generate_palette_from_palette(
-                    n=n, palette_name=self._palette
+                hex_colors = _qualpal.generate_palette_unified(
+                    n=n,
+                    palette_name=self._palette,
+                    background=self._background,
+                    metric=self._metric,
+                    max_memory=self._max_memory,
+                    white_point=self._white_point,
                 )
             elif self._colorspace is not None:
                 # Colorspace mode: sample from color space
@@ -372,8 +422,16 @@ class Qualpal:
                     msg = f"Unsupported color space: {self._space}"
                     raise RuntimeError(msg)
 
-                hex_colors = _qualpal.generate_palette(
-                    n=n, h_range=h_range, c_range=c_range, l_range=l_range
+                hex_colors = _qualpal.generate_palette_unified(
+                    n=n,
+                    h_range=h_range,
+                    c_range=c_range,
+                    l_range=l_range,
+                    cvd=self._cvd,
+                    background=self._background,
+                    metric=self._metric,
+                    max_memory=self._max_memory,
+                    white_point=self._white_point,
                 )
             else:
                 msg = "No input source available for generation"

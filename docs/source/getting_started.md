@@ -231,6 +231,38 @@ qp_light = Qualpal(background="#ffffff")
 qp_light.generate(4)
 ```
 
+## White Point Configuration
+
+The white point defines the reference illuminant used for color space conversions.
+Different white points are used in different contexts - D65 is standard for web/sRGB,
+while D50 is common in printing and graphics. Qualpal supports several CIE standard illuminants.
+
+```{code-cell} ipython3
+# Default: D65 (standard web/sRGB)
+qp_web = Qualpal()
+web_palette = qp_web.generate(5)
+print("D65 (web/sRGB):")
+web_palette
+```
+
+```{code-cell} ipython3
+# D50: Common in printing industry
+qp_print = Qualpal(white_point='d50')
+print_palette = qp_print.generate(5)
+print("D50 (printing):")
+print_palette
+```
+
+Available white points:
+- **d65**: Daylight 6500K (default, sRGB/web standard)
+- **d50**: Daylight 5000K (printing/graphics industry)
+- **d55**: Daylight 5500K
+- **a**: Incandescent tungsten 2856K
+- **e**: Equal energy (theoretical reference)
+
+The choice of white point affects color appearance and should match your target medium.
+For web applications, use D65 (default). For print work, D50 is typically appropriate.
+
 ## Complete Example: Accessible Data Visualization Palette
 
 Let's create a complete palette suitable for accessible data visualization:

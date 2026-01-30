@@ -23,7 +23,8 @@ apply_optional_config(qualpal::Qualpal& qp,
                       const std::optional<std::map<std::string, double>>& cvd,
                       const std::optional<std::string>& background,
                       const std::optional<std::string>& metric,
-                      const std::optional<double>& max_memory)
+                      const std::optional<double>& max_memory,
+                      const std::optional<std::string>& white_point)
 {
   if (cvd.has_value()) {
     qp.setCvd(cvd.value());
@@ -45,6 +46,21 @@ apply_optional_config(qualpal::Qualpal& qp,
   if (max_memory.has_value()) {
     qp.setMemoryLimit(max_memory.value());
   }
+  if (white_point.has_value()) {
+    // Map string to WhitePoint enum
+    const auto& wp = white_point.value();
+    if (wp == "d65") {
+      qp.setWhitePoint(qualpal::WhitePoint::D65);
+    } else if (wp == "d50") {
+      qp.setWhitePoint(qualpal::WhitePoint::D50);
+    } else if (wp == "d55") {
+      qp.setWhitePoint(qualpal::WhitePoint::D55);
+    } else if (wp == "a") {
+      qp.setWhitePoint(qualpal::WhitePoint::A);
+    } else if (wp == "e") {
+      qp.setWhitePoint(qualpal::WhitePoint::E);
+    }
+  }
 }
 
 std::vector<std::string>
@@ -58,7 +74,8 @@ generate_palette_unified(
   const std::optional<std::map<std::string, double>>& cvd,
   const std::optional<std::string>& background,
   const std::optional<std::string>& metric,
-  const std::optional<double>& max_memory)
+  const std::optional<double>& max_memory,
+  const std::optional<std::string>& white_point)
 {
   qualpal::Qualpal qp;
 
@@ -74,7 +91,7 @@ generate_palette_unified(
   }
 
   // Apply optional configuration
-  apply_optional_config(qp, cvd, background, metric, max_memory);
+  apply_optional_config(qp, cvd, background, metric, max_memory, white_point);
 
   // Generate and return
   return rgb_palette_to_hex(qp.generate(n));
@@ -95,6 +112,7 @@ generate_palette(int n,
                                   std::nullopt,
                                   std::nullopt,
                                   std::nullopt,
+                                  std::nullopt,
                                   std::nullopt);
 }
 
@@ -106,6 +124,7 @@ generate_palette_from_colors(int n, const std::vector<std::string>& colors)
                                   std::nullopt,
                                   std::nullopt,
                                   colors,
+                                  std::nullopt,
                                   std::nullopt,
                                   std::nullopt,
                                   std::nullopt,
@@ -122,6 +141,7 @@ generate_palette_from_palette(int n, const std::string& palette_name)
                                   std::nullopt,
                                   std::nullopt,
                                   palette_name,
+                                  std::nullopt,
                                   std::nullopt,
                                   std::nullopt,
                                   std::nullopt,

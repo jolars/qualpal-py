@@ -26,13 +26,15 @@ rgb_palette_to_hex(const std::vector<qualpal::colors::RGB>& pal);
  * @param background Optional background color (hex string)
  * @param metric Optional distance metric ("ciede2000", "din99d", "cie76")
  * @param max_memory Optional memory limit in GB
+ * @param white_point Optional white point ("d65", "d50", "d55", "a", "e")
  */
 void
 apply_optional_config(qualpal::Qualpal& qp,
                       const std::optional<std::map<std::string, double>>& cvd,
                       const std::optional<std::string>& background,
                       const std::optional<std::string>& metric,
-                      const std::optional<double>& max_memory);
+                      const std::optional<double>& max_memory,
+                      const std::optional<std::string>& white_point);
 
 /**
  * @brief Unified palette generation function with full configuration
@@ -46,6 +48,7 @@ apply_optional_config(qualpal::Qualpal& qp,
  * @param background Optional background color
  * @param metric Optional distance metric
  * @param max_memory Optional memory limit
+ * @param white_point Optional white point
  * @return Vector of hex color strings
  */
 std::vector<std::string>
@@ -59,7 +62,8 @@ generate_palette_unified(
   const std::optional<std::map<std::string, double>>& cvd,
   const std::optional<std::string>& background,
   const std::optional<std::string>& metric,
-  const std::optional<double>& max_memory);
+  const std::optional<double>& max_memory,
+  const std::optional<std::string>& white_point);
 
 /**
  * @brief Generate palette using colorspace input

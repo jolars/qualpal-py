@@ -31,5 +31,6 @@
       ~Qualpal.cvd
       ~Qualpal.max_memory
       ~Qualpal.metric
+      ~Qualpal.white_point
    
    

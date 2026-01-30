@@ -26,6 +26,7 @@ PYBIND11_MODULE(_qualpal,
         py::arg("background") = py::none(),
         py::arg("metric") = py::none(),
         py::arg("max_memory") = py::none(),
+        py::arg("white_point") = py::none(),
         "Generate palette with full configuration options");
 
   // Convenience wrappers (backwards compatible)
