@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jolars/versionary/main/schemas/config.json",
+  "version": 1,
+  "review-mode": "pr",
+  "release-type": "python",
+  "bootstrap-sha": "72a59d3a05195fb48e82e53ededa466950ed7d67",
+  "packages": {
+    ".": {
+      "extra-files": [
+        {
+          "type": "regex",
+          "path": "qualpal/__init__.py",
+          "pattern": "^__version__ = \"([^\"]+)\"$"
+        },
+        {
+          "type": "regex",
+          "path": "CITATION.cff",
+          "pattern": "^version: \"([^\"]+)\"$"
+        }
+      ]
+    }
+  }
+}

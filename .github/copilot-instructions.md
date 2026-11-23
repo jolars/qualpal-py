@@ -270,7 +270,9 @@ fig = palette.show(labels=True)
    - Uses cibuildwheel for multi-platform wheels
    - Builds for: Linux (x86_64, ARM), Windows (x86_64, ARM), macOS (x86_64, ARM)
 
-3. **release.yml** - Automated releases with semantic-release
+3. **Releases** - After tests and builds pass on `main`, Versionary opens or
+   updates a release PR. After the release PR merges and CI passes, Versionary
+   publishes a GitHub release, which triggers `pypi.yml`.
 
 **All CI uses uv** - commands use `uv pip install --system` in CI environments.
 
