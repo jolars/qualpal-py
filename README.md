@@ -1,4 +1,4 @@
-# Qualpal <picture><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/jolars/qualpal/refs/heads/main/docs/images/logo.svg" align="right" width="139"> <img alt="The logo for Qualpal, which is a painting palette with five distinct colors." src="https://raw.githubusercontent.com/jolars/qualpal/refs/heads/main/docs/images/logo-dark.svg" align="right" width="139"> </picture>
+# Qualpal <picture><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/jolars/qualpal/refs/heads/main/docs/images/logo.png"> <img alt="Qualpal logo showing five selected colors in a DIN99d point cloud." src="https://raw.githubusercontent.com/jolars/qualpal/refs/heads/main/docs/images/logo-dark.png" align="right" width="220"> </picture>
 
 [![Tests](https://github.com/jolars/qualpal-py/actions/workflows/test.yml/badge.svg)](https://github.com/jolars/qualpal-py/actions/workflows/test.yml)
 [![codecov](https://codecov.io/github/jolars/qualpal-py/graph/badge.svg?token=VBIeMY0zJt)](https://codecov.io/github/jolars/qualpal-py)
