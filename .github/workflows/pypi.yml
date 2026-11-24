@@ -20,12 +20,16 @@ jobs:
       id-token: write
 
   docs:
-    name: Document
+    name: Build documentation
     needs: [build-and-test]
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
+      contents: read
+      pages: read
+    env:
+      PAGES_ARTIFACT_NAME: github-pages-${{ github.run_attempt }}
+    outputs:
+      artifact-name: ${{ env.PAGES_ARTIFACT_NAME }}
     steps:
       - uses: actions/checkout@v7
 
@@ -48,14 +52,25 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
+          name: ${{ env.PAGES_ARTIFACT_NAME }}
           path: "docs/build/html/"
 
+  deploy-docs:
+    name: Deploy documentation
+    needs: [docs]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          artifact_name: ${{ needs.docs.outputs.artifact-name }}
 
   upload_pypi:
-    needs: [build-and-test, docs]
+    needs: [build-and-test, deploy-docs]
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
