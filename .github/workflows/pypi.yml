@@ -27,9 +27,9 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
 
       - name: Install dependencies
         run: python -m pip install --upgrade pip
@@ -43,10 +43,10 @@ jobs:
           make html
 
       - name: Setup pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: "docs/build/html/"
 
@@ -62,7 +62,7 @@ jobs:
       id-token: write
       attestations: write
     steps:
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.x"
 
