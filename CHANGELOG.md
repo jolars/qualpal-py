@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.0](https://github.com/jolars/qualpal-py/compare/v1.1.0...v2.0.0) (2026-11-24)
+
+### Breaking changes
+
+- update to qualpal library v4.0.0 ([`06076eb`](https://github.com/jolars/qualpal-py/commit/06076eb4bad192562ee28ce22c8959d7c62f9527))
+
+### Features
+
+- add white point setting ([`a93f4ad`](https://github.com/jolars/qualpal-py/commit/a93f4adb58b3616fb99ea8293a13d77e2120f4d6))
+- update to qualpal library v4.0.0 ([`06076eb`](https://github.com/jolars/qualpal-py/commit/06076eb4bad192562ee28ce22c8959d7c62f9527))
+
+### Bug Fixes
+
+- require qualpal 4 ([`90bd624`](https://github.com/jolars/qualpal-py/commit/90bd6243ede099cf95a3e0e0c76674dd8d79cf08))
+
 ## [1.1.0](https://github.com/jolars/qualpal-py/compare/v1.0.0...v1.1.0) (2026-01-09)
 
 ### Features
